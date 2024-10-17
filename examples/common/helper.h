@@ -32,6 +32,8 @@
 
 #include "cuda_runtime.h"
 #include <iostream>
+#include <algorithm>
+#include <numeric>
 
 /**
  * Panic wrapper for unwinding CUTLASS errors
@@ -106,3 +108,22 @@ struct GpuTimer
         return elapsed;
     }
 };
+
+template <typename T>
+void quantile(std::vector<T> &data, std::vector<float> quantiles = {0.5, 0.8, 0.9, 0.95, 0.99, 0.999})
+{
+  T avg = 0;
+  std::vector<T> quantile_values;
+  std::sort(data.begin(), data.end());
+  avg = std::accumulate(data.begin(), data.end(), float(0.0)) / static_cast<float>(data.size());
+  for (auto q : quantiles)
+  {
+      size_t index = static_cast<size_t>(q * static_cast<float>(data.size()));
+      quantile_values.push_back(data[index]);
+  }
+  for(int i = 0; i < quantiles.size(); i++)
+  {
+    std::cout << quantiles[i] << " : " << quantile_values[i] << std::endl;
+  }
+  std::cout << "Average : " << avg << std::endl;
+}

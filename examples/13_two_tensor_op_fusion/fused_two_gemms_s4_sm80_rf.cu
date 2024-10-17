@@ -41,38 +41,38 @@
 #include "cutlass/util/reference/host/gemm.h"
 
 #include "device/b2b_gemm.h"
-#include "b2b_gemm_run.h"
+#include "b2b_interleaved_gemm_run.h"
 #include "test_run.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
-cutlass::gemm::GemmCoord gemm_f16_sm80_problem_size_0(12*256, 384, 384);
-cutlass::gemm::GemmCoord gemm_f16_sm80_problem_size_1(12*256, 384, 384);
+cutlass::gemm::GemmCoord gemm_s4_sm80_problem_size_0(12*256, 384, 384);
+cutlass::gemm::GemmCoord gemm_s4_sm80_problem_size_1(12*256, 384 * 4, 384);
 
-bool run_nonfused_gemm_f16_sm80() {
+bool run_nonfused_gemm_s4_sm80() {
 
-  using ElementOutput = cutlass::half_t;
-  using ElementAccumulator = cutlass::half_t;
-  using ElementCompute = cutlass::half_t;
+  using ElementOutput = cutlass::int4b_t;
+  using ElementAccumulator = int32_t;
+  using ElementCompute = float;
 
   ElementCompute alpha0 = ElementCompute(1);
   ElementCompute beta0 = ElementCompute(1); //beta=1 for bias
   ElementCompute alpha1 = ElementCompute(1);
   ElementCompute beta1 = ElementCompute(1); //beta=1 for bias
 
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 384, 32>;
-  using WarpShape0 = cutlass::gemm::GemmShape<64, 64, 32>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 384, 32>;
-  using WarpShape1 = cutlass::gemm::GemmShape<64, 64, 32>;
-  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 16>;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 64, 64>;
+  using WarpShape0 = cutlass::gemm::GemmShape<64, 64, 64>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 128, 64>;
+  using WarpShape1 = cutlass::gemm::GemmShape<64, 64, 64>;
+  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
 
   using Gemm0 = cutlass::gemm::device::Gemm<
-    cutlass::half_t,
-    cutlass::layout::RowMajor,
-    cutlass::half_t,
-    cutlass::layout::ColumnMajor,
+    cutlass::int4b_t,
+    cutlass::layout::ColumnMajorInterleaved<32>,
+    cutlass::int4b_t,
+    cutlass::layout::RowMajorInterleaved<32>,
     ElementOutput,
-    cutlass::layout::RowMajor,
+    cutlass::layout::ColumnMajorInterleaved<32>,
     ElementAccumulator,
     cutlass::arch::OpClassTensorOp,
     cutlass::arch::Sm80,
@@ -81,21 +81,25 @@ bool run_nonfused_gemm_f16_sm80() {
     InstructionShape,
     cutlass::epilogue::thread::LinearCombinationRelu<
       ElementOutput,
-      128 / cutlass::sizeof_bits<ElementOutput>::value,
+      64 / cutlass::sizeof_bits<ElementOutput>::value,
       ElementAccumulator,
       ElementCompute,
       cutlass::epilogue::thread::ScaleType::NoBetaScaling
     >,
-    cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<1>,
-    3
+    cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,
+    3,
+    16,
+    16,
+    false,
+    cutlass::arch::OpMultiplyAddSaturate
   >;
   using Gemm1 = cutlass::gemm::device::Gemm<
-    cutlass::half_t,
-    cutlass::layout::RowMajor,
-    cutlass::half_t,
-    cutlass::layout::ColumnMajor,
+    cutlass::int4b_t,
+    cutlass::layout::ColumnMajorInterleaved<32>,
+    cutlass::int4b_t,
+    cutlass::layout::RowMajorInterleaved<32>,
     ElementOutput,
-    cutlass::layout::RowMajor,
+    cutlass::layout::ColumnMajorInterleaved<32>,
     ElementAccumulator,
     cutlass::arch::OpClassTensorOp,
     cutlass::arch::Sm80,
@@ -104,19 +108,23 @@ bool run_nonfused_gemm_f16_sm80() {
     InstructionShape,
     cutlass::epilogue::thread::LinearCombinationRelu<
       ElementOutput,
-      128 / cutlass::sizeof_bits<ElementOutput>::value,
+      64 / cutlass::sizeof_bits<ElementOutput>::value,
       ElementAccumulator,
       ElementCompute,
       cutlass::epilogue::thread::ScaleType::NoBetaScaling
     >,
-    cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<1>,
-    3
+    cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,
+    3,
+    16,
+    16,
+    false,
+    cutlass::arch::OpMultiplyAddSaturate
   >;
 
-  B2bNonFusedGemmRun<Gemm0, Gemm1> nonFusedGemm;
+  B2bInterleavedNonFusedGemmRun<Gemm0, Gemm1, 32> nonFusedGemm;
 
-  std::cout << "Running Non-fused back-to-back FP16 TN GEMMs...\n";
-  bool pass = nonFusedGemm.run(gemm_f16_sm80_problem_size_0, gemm_f16_sm80_problem_size_1, alpha0, beta0, alpha1, beta1);
+  std::cout << "Running Non-fused back-to-back INT8 NT interleaved GEMMs...\n";
+  bool pass = nonFusedGemm.run(gemm_s4_sm80_problem_size_0, gemm_s4_sm80_problem_size_1, alpha0, beta0, alpha1, beta1);
   if(pass)
     std::cout << "Pass\n";
   else
@@ -125,49 +133,52 @@ bool run_nonfused_gemm_f16_sm80() {
   return pass;
 }
 
-bool run_fused_gemm_f16_sm80_rf_res() {
 
-  using ElementOutput = cutlass::half_t;
-  using ElementAccumulator = cutlass::half_t;
-  using ElementCompute = cutlass::half_t;
+bool run_fused_gemm_s4_sm80_rf_res() {
+
+  using ElementOutput = cutlass::int4b_t;
+  using ElementAccumulator = int32_t;
+  using ElementCompute = float;
 
   ElementCompute alpha0 = ElementCompute(1);
   //Fused kernel has built-in bias, setting beta=0
-  ElementCompute beta0 = ElementCompute(0); 
+  ElementCompute beta0 = ElementCompute(0);
   ElementCompute alpha1 = ElementCompute(1);
   ElementCompute beta1 = ElementCompute(1); //beta=1 for bias
 
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<64, 64, 32>;
-  using WarpShape0 = cutlass::gemm::GemmShape<16, 64, 32>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<64, 128, 32>;
-  using WarpShape1 = cutlass::gemm::GemmShape<16, 128, 32>;
-  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 16>;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<64, 64, 64>;
+  using WarpShape0 = cutlass::gemm::GemmShape<16, 64, 64>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<64, 128, 64>;
+  using WarpShape1 = cutlass::gemm::GemmShape<16, 128, 64>;
+  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
 
-  using EpilogueOutputOp0 = 
+  using EpilogueOutputOp0 =
     cutlass::epilogue::thread::LinearCombinationRelu<
       ElementOutput,
-      InstructionShape::kM * InstructionShape::kN / 32,
+      8 * InstructionShape::kN / 32,
       ElementAccumulator,
       ElementCompute,
       cutlass::epilogue::thread::ScaleType::OnlyAlphaScaling
     >;
 
-  using EpilogueOutputOp1 = 
+  using EpilogueOutputOp1 =
     cutlass::epilogue::thread::LinearCombinationRelu<
       ElementOutput,
-      128 / cutlass::sizeof_bits<ElementOutput>::value,
+      64 / cutlass::sizeof_bits<ElementOutput>::value,
       ElementAccumulator,
       ElementCompute,
       cutlass::epilogue::thread::ScaleType::NoBetaScaling
     >;
 
+  const bool SmemAccumulator = false;
+
   using B2bGemm = cutlass::gemm::device::B2bGemm<
-    cutlass::half_t,
-    cutlass::layout::RowMajor,
-    cutlass::half_t,
-    cutlass::layout::ColumnMajor,
+    cutlass::int4b_t,
+    cutlass::layout::ColumnMajorInterleaved<32>,
+    cutlass::int4b_t,
+    cutlass::layout::RowMajorInterleaved<32>,
     ElementOutput,
-    cutlass::layout::RowMajor,
+    cutlass::layout::ColumnMajorInterleaved<32>,
     ElementAccumulator,
     cutlass::arch::OpClassTensorOp,
     cutlass::arch::Sm80,
@@ -178,42 +189,45 @@ bool run_fused_gemm_f16_sm80_rf_res() {
     InstructionShape,
     EpilogueOutputOp0,
     EpilogueOutputOp1,
-    cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<1>,
-    3
+    cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,
+    3,
+    SmemAccumulator,
+    16,
+    16,
+    cutlass::arch::OpMultiplyAddSaturate
   >;
 
-  B2bFusedGemmRun<B2bGemm> fusedGemm;
+  B2bInterleavedFusedGemmRun<B2bGemm, 32> fusedGemm;
 
-  std::cout << "Running Fused back-to-back FP16 TN GEMMs with RF residency...\n";
-  bool passed = fusedGemm.run(gemm_f16_sm80_problem_size_0, gemm_f16_sm80_problem_size_1, alpha0, beta0, alpha1, beta1);
+  std::cout << "Running Fused back-to-back INT8 NT interleaved GEMMs with RF residency...\n";
+  bool passed = fusedGemm.run(
+    gemm_s4_sm80_problem_size_0,
+    gemm_s4_sm80_problem_size_1,
+    alpha0,
+    beta0,
+    alpha1,
+    beta1
+  );
+
   if(passed)
     std::cout << "Pass\n";
   else
     std::cout << "Fail\n";
 
   return passed;
-
 }
 
 int main() {
-
   std::vector<bool (*)()>funcs = {
-    &run_nonfused_gemm_f16_sm80,
-    &run_fused_gemm_f16_sm80_rf_res
+    &run_nonfused_gemm_s4_sm80,
+    &run_fused_gemm_s4_sm80_rf_res
   };
 
-  // gemm_f16_sm80_problem_size_0 = cutlass::gemm::GemmCoord(12*256, 384, 384);
-  // gemm_f16_sm80_problem_size_1 = cutlass::gemm::GemmCoord(12*256, 384 * 4, 384);
-  return testRun(80, funcs, "gemm int8 RF residency");
-  
-  // gemm_f16_sm80_problem_size_0 = cutlass::gemm::GemmCoord(12*256, 384 * 4, 384);
-  // gemm_f16_sm80_problem_size_1 = cutlass::gemm::GemmCoord(12*256, 384, 384 * 4);
+  testRun(80, funcs, "gemm int8 RF residency");
+
+  // gemm_s4_sm80_problem_size_0 = cutlass::gemm::GemmCoord(12*256, 384 * 4, 384);
+  // gemm_s4_sm80_problem_size_1 = cutlass::gemm::GemmCoord(12*256, 384, 384 * 4);
   // testRun(80, funcs, "gemm int8 RF residency");
-
-
 }
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////

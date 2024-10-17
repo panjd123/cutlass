@@ -137,8 +137,8 @@ struct B2bNonFusedGemmRun
     ElementCompute alpha1 = ElementCompute(1),
     ElementCompute beta1 = ElementCompute(0),
     bool relu = true,
-    int warm_ups = 1,
-    int runs = 100) {
+    int warm_ups = 10,
+    int runs = 1000) {
 
     //
     // Allocate the GEMM workspace
@@ -743,17 +743,17 @@ struct B2bFusedGemmRun
 
       std::ofstream file(fname.str());
 
-      file
-        << "A0 =\n" << tensor_A0.host_view()
-        << "\nB0 =\n" << tensor_B0.host_view()
-        << "\nC0 =\n" << tensor_C0.host_view()
-        << "\nScale0:\n" << tensor_Scale0.host_view() << "\n"
-        << "\nBias0:\n" << tensor_Bias0.host_view() << "\n"
-        << "\nB1 =\n" << tensor_B1.host_view()
-        << "\nC1 =\n" << tensor_C1.host_view()
-        << "\nBias1:\n" << tensor_Bias1.host_view() << "\n"
-        << "\n\nReference =\n" << reference_D1.host_view()
-        << "\nComputed =\n" << tensor_D1.host_view();
+      // file
+      //   << "A0 =\n" << tensor_A0.host_view()
+      //   << "\nB0 =\n" << tensor_B0.host_view()
+      //   << "\nC0 =\n" << tensor_C0.host_view()
+      //   << "\nScale0:\n" << tensor_Scale0.host_view() << "\n"
+      //   << "\nBias0:\n" << tensor_Bias0.host_view() << "\n"
+      //   << "\nB1 =\n" << tensor_B1.host_view()
+      //   << "\nC1 =\n" << tensor_C1.host_view()
+      //   << "\nBias1:\n" << tensor_Bias1.host_view() << "\n"
+      //   << "\n\nReference =\n" << reference_D1.host_view()
+      //   << "\nComputed =\n" << tensor_D1.host_view();
     }
     return passed;
   }

@@ -206,6 +206,11 @@ struct PitchLinearTilePolicyStripminedThreadStrided
 };
 
 
+template <int x>
+struct Assert{
+  static_assert(x == 123456789, "Debug");
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /// Policy defining a warp-raked arrangement in which a shape is partitioned into contiguous
@@ -288,6 +293,11 @@ struct PitchLinearWarpRakedThreadMap {
       kWarpsContiguous, kWarpsStrided
     >;
   };
+
+  // Assert<Detail::WarpAccessIterations::kContiguous> a1; // 8 4
+  // Assert<Detail::kWarpsContiguous> b1; // 1 1
+  // Assert<Detail::WarpAccessIterations::kStrided> a2; // 2 2
+  // Assert<Detail::kWarpsStrided> b2; // 8
 
   ///< Iterations along each dimension (concept: PitchLinearShape)
   using Iterations = layout::PitchLinearShape<

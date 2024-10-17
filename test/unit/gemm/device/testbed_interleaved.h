@@ -335,6 +335,14 @@ struct InterleavedTestbed {
 
     return true;
   }
+
+  bool run_bert(){
+    run(
+      {12*256, 384, 384}, 
+      ElementCompute(1), 
+      ElementCompute(0)
+    );
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

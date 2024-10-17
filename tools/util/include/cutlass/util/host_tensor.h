@@ -127,6 +127,7 @@ private:
   /// Host-side memory allocation
   std::vector<StorageUnit> host_;
 
+  public:
   /// Device-side memory
   device_memory::allocation<StorageUnit> device_;
 

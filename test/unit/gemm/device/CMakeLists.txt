@@ -472,6 +472,21 @@ cutlass_test_unit_add_executable(
 )
 
 cutlass_test_unit_add_executable(
+  cutlass_test_unit_gemm_s4
+
+  gemm_s4.cu
+  gemm_s4_interleaved.cu
+)
+
+cutlass_test_unit_add_executable(
+  cutlass_test_unit_gemm_s8
+
+  gemm_s8.cu
+  gemm_s8_interleaved.cu
+)
+
+
+cutlass_test_unit_add_executable(
   cutlass_test_unit_gemm_device_tensorop_s32_sm80
 
   BATCH_SOURCES ON

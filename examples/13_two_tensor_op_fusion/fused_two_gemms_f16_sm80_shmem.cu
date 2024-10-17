@@ -207,7 +207,13 @@ int main() {
     &run_fused_gemm_f16_sm80_shmem
   };
 
-  return testRun(80, funcs, "gemm f16 shmem staging");
+  // gemm_f16_sm80_problem_size_0 = cutlass::gemm::GemmCoord(12*256, 384, 384);
+  // gemm_f16_sm80_problem_size_1 = cutlass::gemm::GemmCoord(12*256, 384 * 4, 384);
+  testRun(80, funcs, "gemm int8 RF residency");
+  
+  // gemm_f16_sm80_problem_size_0 = cutlass::gemm::GemmCoord(12*256, 384 * 4, 384);
+  // gemm_f16_sm80_problem_size_1 = cutlass::gemm::GemmCoord(12*256, 384, 384 * 4);
+  // testRun(80, funcs, "gemm int8 RF residency");
 
 
 }

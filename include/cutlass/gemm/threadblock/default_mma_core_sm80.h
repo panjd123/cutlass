@@ -1775,6 +1775,11 @@ struct DefaultMmaCore<Shape_, WarpShape_, InstructionShape_, ElementA_,
 
 ////////////////////////////////////////////////////////////////////////////////
 
+template <int T>
+struct Assert{
+    static_assert(T == 0, "Debug");
+};
+
 /// Partial specialization:
 ///
 ///   A: column-major-interleaved
@@ -1841,6 +1846,11 @@ struct DefaultMmaCore<Shape_, WarpShape_, InstructionShape_, ElementA_,
   using WarpCount = GemmShape<Shape::kM / WarpShape::kM,
                               Shape::kN / WarpShape::kN, 
                               Shape::kK / WarpShape::kK>; 
+
+//   Assert<Shape::kM> a; // 128
+//   Assert<WarpShape::kM> b; // 64
+//   Assert<Shape::kN> c; // 32
+//   Assert<WarpShape::kN> d; // 48
 
   // Divisility requirements
   static_assert(

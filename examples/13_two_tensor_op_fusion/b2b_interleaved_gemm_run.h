@@ -136,8 +136,8 @@ struct B2bInterleavedNonFusedGemmRun
     ElementCompute alpha1 = ElementCompute(1),
     ElementCompute beta1 = ElementCompute(0),
     bool relu = true,
-    int warm_ups = 1,
-    int runs = 100) {
+    int warm_ups = 10,
+    int runs = 1000) {
 
     //
     // Allocate the GEMM workspace
@@ -377,19 +377,19 @@ struct B2bInterleavedNonFusedGemmRun
 
       std::ofstream file(fname.str());
 
-      file
-        << "A0 =\n" << tensor_A0.host_view()
-        << "\nB0 =\n" << tensor_B0.host_view()
-        << "\nB0_reordered =\n" << tensor_B0_reordered.host_view()
-        << "\nC0 =\n" << tensor_C0.host_view()
-        << "\nBias0:\n" << tensor_Bias0.host_view() << "\n"
-        << "\nD0 =\n" << tensor_D0.host_view()
-        << "\nB1 =\n" << tensor_B1.host_view()
-        << "\nB1_reordered =\n" << tensor_B1_reordered.host_view()
-        << "\nC1 =\n" << tensor_C1.host_view()
-        << "\nBias1:\n" << tensor_Bias1.host_view() << "\n"
-        << "\n\nReference =\n" << reference_D1.host_view()
-        << "\nComputed =\n" << tensor_D1.host_view();
+      // file
+      //   << "A0 =\n" << tensor_A0.host_view()
+      //   << "\nB0 =\n" << tensor_B0.host_view()
+      //   << "\nB0_reordered =\n" << tensor_B0_reordered.host_view()
+      //   << "\nC0 =\n" << tensor_C0.host_view()
+      //   << "\nBias0:\n" << tensor_Bias0.host_view() << "\n"
+      //   << "\nD0 =\n" << tensor_D0.host_view()
+      //   << "\nB1 =\n" << tensor_B1.host_view()
+      //   << "\nB1_reordered =\n" << tensor_B1_reordered.host_view()
+      //   << "\nC1 =\n" << tensor_C1.host_view()
+      //   << "\nBias1:\n" << tensor_Bias1.host_view() << "\n"
+      //   << "\n\nReference =\n" << reference_D1.host_view()
+      //   << "\nComputed =\n" << tensor_D1.host_view();
     }
     return passed;
   }
@@ -492,8 +492,8 @@ struct B2bInterleavedFusedGemmRun
     int64_t batch_stride_Bias0 = 0,
     int64_t batch_stride_Scale0 = 0,
     bool relu = true,
-    int warm_ups = 1,
-    int runs = 100) {
+    int warm_ups = 10,
+    int runs = 1000) {
 
     //
     // Allocate the GEMM workspace

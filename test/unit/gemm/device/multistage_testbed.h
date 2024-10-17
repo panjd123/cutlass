@@ -199,7 +199,34 @@ struct MultistageTestbed {
     // Run the GEMM
     //
 
-    status = gemm_op();
+    const int iterations = 10000;
+    const int warmup = 100;
+    const ::testing::TestInfo *test_info = ::testing::UnitTest::GetInstance()->current_test_info();
+    for (int i = 0; i < warmup; i++)
+    {
+      status = gemm_op();
+    }
+    std::vector<double> elapsed_times;
+    for (int i = 0; i < iterations; i++)
+    {
+      auto start = std::chrono::high_resolution_clock::now();
+      status = gemm_op();
+      auto end = std::chrono::high_resolution_clock::now();
+      double ms_elapsed = std::chrono::duration<double, std::milli>(end - start).count();
+      elapsed_times.push_back(ms_elapsed);
+    }
+    // m n k test_case_name name elapsed_time
+    auto quantiles = quantile(elapsed_times);
+    std::ofstream file("data.csv", std::ios_base::app);
+    std::cout << problem_size.m() << "," << problem_size.n() << "," << problem_size.k() << "," << test_info->test_case_name() << "," << test_info->name();
+    file << problem_size.m() << "," << problem_size.n() << "," << problem_size.k() << "," << test_info->test_case_name() << "," << test_info->name();
+    for (auto q : quantiles)
+    {
+      std::cout << "," << q.second;
+      file << "," << q.second;
+    }
+    std::cout << std::endl;
+    file << std::endl;
 
     EXPECT_TRUE(status == cutlass::Status::kSuccess);
 
@@ -253,8 +280,16 @@ struct MultistageTestbed {
     return passed;
   }
 
+  bool run_bert() {
+    run({12 * 256, 384, 384}, ElementCompute(1), ElementCompute(0));
+    run({12 * 256, 384, 384 * 4}, ElementCompute(1), ElementCompute(0));
+    run({12 * 256, 384 * 4, 384}, ElementCompute(1), ElementCompute(0));
+    return true;
+  }
+
   /// Runs a set of problem sizes
   bool run_all() {
+    return run_bert();
     bool passed = true;
 
     int problem_size_m[] = {16, 528};

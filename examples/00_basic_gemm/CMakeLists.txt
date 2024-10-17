@@ -33,3 +33,12 @@ cutlass_example_add_executable(
   basic_gemm.cu
 )
   
+cutlass_example_add_executable(
+  00_s8_gemm
+  s8_gemm.cu
+)
+
+cutlass_example_add_executable(
+  00_s4_gemm
+  s4_gemm.cu
+)

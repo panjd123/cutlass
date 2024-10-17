@@ -100,3 +100,33 @@ int CutlassUnitTestProblemCount();
 #include <cutlass/trace.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <vector>
+#include <algorithm>
+#include <numeric>
+
+template <typename T>
+inline std::vector<std::pair<float, T>> quantile(std::vector<T> &data, std::vector<float> quantiles = {0.5, 0.8, 0.9, 0.95, 0.99, 0.999})
+{
+  T avg = 0;
+  std::vector<T> quantile_values;
+  std::sort(data.begin(), data.end());
+  avg = std::accumulate(data.begin(), data.end(), float(0.0)) / static_cast<float>(data.size());
+  for (auto q : quantiles)
+  {
+      size_t index = static_cast<size_t>(q * static_cast<float>(data.size()));
+      quantile_values.push_back(data[index]);
+  }
+  // for(int i = 0; i < quantiles.size(); i++)
+  // {
+  //   std::cout << quantiles[i] << " : " << quantile_values[i] << std::endl;
+  // }
+  // std::cout << "Average : " << avg << std::endl;
+  std::vector<std::pair<float, T>> quantile_data;
+  quantile_data.push_back(std::make_pair(0, avg));
+  for (int i = 0; i < quantiles.size(); i++)
+  {
+    quantile_data.push_back(std::make_pair(quantiles[i], quantile_values[i]));
+  }
+  return quantile_data;
+}
