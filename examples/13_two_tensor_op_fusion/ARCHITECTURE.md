@@ -284,7 +284,12 @@ using B2bGemmKernel = kernel::B2bGemm<B2bMma, Epilogue, ThreadblockSwizzle>;
 
 ## b2bMma
 
-- examples/13_two_tensor_op_fusion/threadblock/b2b_mma_multistage_smem_accumulator.h:431
+- examples/13_two_tensor_op_fusion/threadblock/b2b_mma_multistage_smem_accumulator.h:431 [link](threadblock/b2b_mma_multistage_smem_accumulator.h)
+
+- examples/13_two_tensor_op_fusion/kernel/default_b2b_gemm_smem_accumulator.h:291 [link](kernel/default_b2b_gemm_smem_accumulator.h)
+- examples/13_two_tensor_op_fusion/threadblock/default_b2b_mma_smem_accumulator.h [link](threadblock/default_b2b_mma_smem_accumulator.h)
+- examples/13_two_tensor_op_fusion/threadblock/b2b_mma_multistage_smem_accumulator.h:115 [link](threadblock/b2b_mma_multistage_smem_accumulator.h)
+
 
 ```cpp
 // examples/13_two_tensor_op_fusion/kernel/default_b2b_gemm_smem_accumulator.h:291
