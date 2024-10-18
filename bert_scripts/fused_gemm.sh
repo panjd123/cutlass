@@ -2,8 +2,6 @@
 
 # cmake -B debug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CUDA_ARCHITECTURES=80 -DCUTLASS_ENABLE_CUBLAS=ON -DCUTLASS_ENABLE_CUDNN=ON .
 
-TESTN=256
-
 cmake --build build --target 13_fused_two_gemms_s8_sm80_rf -j &
 pid1=$!
 cmake --build build --target 13_fused_two_gemms_s8_sm80_shmem -j &
@@ -22,5 +20,5 @@ else
     exit 1
 fi
 
-./build/examples/13_two_tensor_op_fusion/13_fused_two_gemms_s8_sm80_rf
+# ./build/examples/13_two_tensor_op_fusion/13_fused_two_gemms_s8_sm80_rf
 ./build/examples/13_two_tensor_op_fusion/13_fused_two_gemms_s8_sm80_shmem

@@ -239,7 +239,11 @@ bool run_fused_gemm_s8_sm80_shmem() {
 
 
 int main() {
+  int device_count;
+  cudaGetDeviceCount(&device_count);
+  printf("系统中可用的 GPU 数量: %d\n", device_count);
 
+  CUDA_CHECK(cudaSetDevice(device_count - 1));
   std::vector<bool (*)()>funcs = {
     &run_nonfused_gemm_s8_sm80,
     &run_fused_gemm_s8_sm80_shmem

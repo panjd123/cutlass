@@ -136,8 +136,8 @@ struct B2bInterleavedNonFusedGemmRun
     ElementCompute alpha1 = ElementCompute(1),
     ElementCompute beta1 = ElementCompute(0),
     bool relu = true,
-    int warm_ups = 10,
-    int runs = 1000) {
+    int warm_ups = 0,
+    int runs = 1) {
 
     //
     // Allocate the GEMM workspace

@@ -47,8 +47,8 @@
 #include "test_run.h"
 
 #ifndef TESTN1
-#define TESTN1 256
-#define TESTN2 256
+#define TESTN1 128
+#define TESTN2 128
 #endif
 
 #define TESTK TESTN1
@@ -339,6 +339,7 @@ bool run_fused_gemm_s8_sm80_rf_res() {
 // }
 
 int main() {
+  cudaSetDevice(6);
 
   std::vector<bool (*)()>funcs = {
     &run_nonfused_gemm_s8_sm80,

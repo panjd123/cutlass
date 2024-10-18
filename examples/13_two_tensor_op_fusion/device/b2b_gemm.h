@@ -124,6 +124,7 @@ template <
         OperatorClass_, ArchTag_, ElementA_, ElementB_, ElementC_,
         ElementAccumulator_>::Operator>
 class B2bGemm {
+  bool log_once = 0;
  public:
 
   using ElementA = ElementA_;
@@ -316,6 +317,12 @@ public:
         return Status::kErrorInternal;
       }
     }
+
+  if (!log_once) {
+    std::cout << "Launching kernel with grid = " << grid.x << ", " << grid.y << ", " << grid.z << " and block = " << block.x << ", " << block.y << ", " << block.z << std::endl;
+    std::cout << "Shared memory size = " << smem_size << std::endl;
+    log_once = 1;
+  }
 
     cutlass::Kernel<B2bGemmKernel><<<grid, block, smem_size, stream>>>(params_);
 
