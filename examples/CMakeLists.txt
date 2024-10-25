@@ -55,6 +55,7 @@ function(cutlass_example_add_executable NAME)
     cutlass_tools_util_includes
     $<$<BOOL:${CUTLASS_ENABLE_CUBLAS}>:nvidia::cublas>
     cuda
+    nvToolsExt
     )
 
   target_include_directories(

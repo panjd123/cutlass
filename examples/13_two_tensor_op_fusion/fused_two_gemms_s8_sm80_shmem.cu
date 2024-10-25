@@ -52,11 +52,13 @@
 // #define WARPSHAPE1 cutlass::gemm::GemmShape<32, 64, 64>
 // #define SMEM_ACCUMULATOR true
 
+#define STAGES 3
+
 #define TESTM 12*256
 
 #ifndef TESTN1
-#define TESTN1 256
-#define TESTN2 256
+#define TESTN1 384
+#define TESTN2 384
 #endif
 
 #define TESTK TESTN1
@@ -81,10 +83,10 @@ bool run_nonfused_gemm_s8_sm80() {
   ElementCompute alpha1 = ElementCompute(1);
   ElementCompute beta1 = ElementCompute(0); //beta=1 for bias
 
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 64, 64>;
-  using WarpShape0 = cutlass::gemm::GemmShape<64, 64, 64>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 128, 64>;
-  using WarpShape1 = cutlass::gemm::GemmShape<64, 64, 64>;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 96, 64>;
+  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 96, 64>;
+  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
 
   using Gemm0 = cutlass::gemm::device::Gemm<
@@ -108,7 +110,7 @@ bool run_nonfused_gemm_s8_sm80() {
       cutlass::epilogue::thread::ScaleType::Nothing
     >,
     cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,
-    3,
+    STAGES,
     16,
     16,
     false,
@@ -135,7 +137,7 @@ bool run_nonfused_gemm_s8_sm80() {
       cutlass::epilogue::thread::ScaleType::Nothing
     >,
     cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,
-    3,
+    STAGES,
     16,
     16,
     false,
@@ -166,10 +168,10 @@ bool run_fused_gemm_s8_sm80_shmem() {
   ElementCompute alpha1 = ElementCompute(1);
   ElementCompute beta1 = ElementCompute(0); //beta=1 for bias
 
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<64, TESTN1, 64>;
-  using WarpShape0 = WARPSHAPE0;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<64, TESTN2, 64>;
-  using WarpShape1 = WARPSHAPE1;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, 64>;
+  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, 64>;
+  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
 
   using EpilogueOutputOp0 =
@@ -210,7 +212,7 @@ bool run_fused_gemm_s8_sm80_shmem() {
     EpilogueOutputOp0,
     EpilogueOutputOp1,
     cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,
-    3,
+    STAGES,
     SmemAccumulator,
     16,
     16,

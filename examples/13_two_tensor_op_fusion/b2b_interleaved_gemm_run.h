@@ -49,6 +49,8 @@
 #include "reference/device/tensor_scale_bias.h"
 #include "helper.h"
 
+#include <nvToolsExt.h>
+
 #define CHECK_GT(val1, val2) \
     if((val1) <= (val2)) \
         std::cerr << __FILE__ << " " << __LINE__ << ": CHECK_GT failed\n";
@@ -136,7 +138,7 @@ struct B2bInterleavedNonFusedGemmRun
     ElementCompute alpha1 = ElementCompute(1),
     ElementCompute beta1 = ElementCompute(0),
     bool relu = true,
-    int warm_ups = 0,
+    int warm_ups = 10,
     int runs = 1) {
 
     //
@@ -276,6 +278,11 @@ struct B2bInterleavedNonFusedGemmRun
     //
     // Run the GEMM
     //
+    nvtxRangePushA("Non-fused-GEMM");
+    status = gemm_op_0();
+    status = gemm_op_1();
+    nvtxRangePop();
+
     cudaEvent_t start, stop1, stop2;
     cudaEventCreate(&start);
     cudaEventCreate(&stop1);
@@ -492,8 +499,8 @@ struct B2bInterleavedFusedGemmRun
     int64_t batch_stride_Bias0 = 0,
     int64_t batch_stride_Scale0 = 0,
     bool relu = true,
-    int warm_ups = 10,
-    int runs = 1000) {
+    int warm_ups = 100,
+    int runs = 10000) {
 
     //
     // Allocate the GEMM workspace
@@ -657,6 +664,9 @@ struct B2bInterleavedFusedGemmRun
     //
     // Run the GEMM
     //
+    nvtxRangePushA("Fused-GEMM");
+    status = b2b_gemm_op();
+    nvtxRangePop();
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
