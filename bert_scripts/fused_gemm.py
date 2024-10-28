@@ -7,10 +7,15 @@ import numpy as np
 
 
 shmem_path = "examples/13_two_tensor_op_fusion/fused_two_gemms_s8_sm80_shmem.cu"
-shmem_n_line = 58 - 1
+lines = open(shmem_path, "r").readlines()
+lines = [line.strip() for line in lines]
+# #ifndef TESTN1
+shmem_n_line = lines.index("#ifndef TESTN1\n")
 
-non_fused_line = 84 - 1
-fused_line = 169 - 1
+#  #define NONFUSED_INSERT_POINT 0
+non_fused_line = lines.index("#define NONFUSED_INSERT_POINT 0")
+#  #define FUSED_INSERT_POINT 0
+fused_line = lines.index("#define FUSED_INSERT_POINT 0")
 
 def modify_line(file, line_no, content):
     with open(file, "r") as f:

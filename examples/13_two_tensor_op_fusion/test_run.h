@@ -66,15 +66,16 @@ int testRun(int arch, std::vector<bool (*)()> & test_funcs, const std::string & 
     return -1;
   }
 
-  // if (!(props.major == arch_major && props.minor == arch_minor)) {
-  //   supported = false;
-  // }
+  if (!(props.major == arch_major && props.minor == arch_minor)) {
+    // supported = false;
+    // do nothing here
+  }
 
-  // if (!supported) {
-  //   // Returning zero so this test passes on older Toolkits. Its actions are no-op.
-  //   std::cout << "This example isn't supported on current architecture" << std::endl;
-  //   return 0;
-  // }
+  if (!supported) {
+    // Returning zero so this test passes on older Toolkits. Its actions are no-op.
+    std::cout << "This example isn't supported on current architecture" << std::endl;
+    return 0;
+  }
 
   bool pass = true;
  

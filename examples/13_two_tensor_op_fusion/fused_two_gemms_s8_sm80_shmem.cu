@@ -44,20 +44,15 @@
 #include "b2b_interleaved_gemm_run.h"
 #include "test_run.h"
 
-// #define TESTM 128*640
-// #define TESTK 576
-// #define TESTN1 64
-// #define TESTN2 256
-// #define WARPSHAPE0 cutlass::gemm::GemmShape<32, 32, 64>
-// #define WARPSHAPE1 cutlass::gemm::GemmShape<32, 64, 64>
-// #define SMEM_ACCUMULATOR true
-
 #define STAGES 3
 
 #define TESTM 12*256
 
 #ifndef TESTN1
 #define TESTN1 384
+#endif
+
+#ifndef TESTN2
 #define TESTN2 384
 #endif
 
@@ -88,6 +83,12 @@ bool run_nonfused_gemm_s8_sm80() {
   using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 96, 64>;
   using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
+  #define NONFUSED_INSERT_POINT 0
+  // using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, 64>;
+  // using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
+  // using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, 64>;
+  // using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
+  // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
 
   using Gemm0 = cutlass::gemm::device::Gemm<
     int8_t,
@@ -168,6 +169,7 @@ bool run_fused_gemm_s8_sm80_shmem() {
   ElementCompute alpha1 = ElementCompute(1);
   ElementCompute beta1 = ElementCompute(0); //beta=1 for bias
 
+  #define FUSED_INSERT_POINT 0
   using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, 64>;
   using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
   using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, 64>;
