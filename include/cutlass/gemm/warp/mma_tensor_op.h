@@ -298,7 +298,7 @@ public:
     MmaOperandA const *ptr_A = reinterpret_cast<MmaOperandA const *>(&A);
     MmaOperandB const *ptr_B = reinterpret_cast<MmaOperandB const *>(&B);
     MmaOperandC *ptr_D = reinterpret_cast<MmaOperandC *>(&D);
-
+    // printf("M, N, K:%d %d %d\tIM, N, K: %d %d %d\tITERM, N: %d %d\n", Shape::kM, Shape::kN, Shape::kK, ArchMmaOperator::Shape::kM, ArchMmaOperator::Shape::kN, ArchMmaOperator::Shape::kK, MmaIterations::kRow, MmaIterations::kColumn);
       
     if (kVerticalVisit) {
       CUTLASS_PRAGMA_UNROLL

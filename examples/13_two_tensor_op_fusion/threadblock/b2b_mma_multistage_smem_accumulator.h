@@ -32,6 +32,19 @@
     \brief Template for a double-buffered threadblock-scoped GEMM kernel.
 */
 
+namespace {
+  template <typename T>
+  void whatIsT(){
+    static_assert(sizeof(T) == 100876, "whatIsT");
+  }
+
+  // template <typename T>
+  // CUTLASS_HOST_DEVICE
+  // void FragmentInfo(){
+  //   printf("kStorageElements:%d\tkElements:%d\n", T::kStorageElements, T::kElements);
+  // }
+}
+
 #pragma once
 
 #include "cutlass/aligned_buffer.h"
@@ -451,6 +464,7 @@ public:
     //
     // Prologue
     //
+    // printf("Init gemm_k_iterations_0: %d\nkStages: %d\n", gemm_k_iterations_0, Base::kStages); // 6 3
 
     // Issue several complete stages
     CUTLASS_PRAGMA_UNROLL
@@ -514,6 +528,13 @@ public:
         ++this->smem_iterator_B0_;
       }
 
+      // printf("CacheOpA0: %d\nShape0: %d %d %d\nIterA: %d %d %d\nIterB: %d %d %d\n\n"
+      // ,static_cast<int>(CacheOpA0) // Global
+      // ,Shape0::kM, Shape0::kN, Shape0::kK // 32 384 64
+      // ,Detail::TBLoadIterationsA0, IteratorA0::ThreadMap::kElementsPerAccess, IteratorA0::kAccessesPerVector // 1 16 1
+      // ,Detail::TBLoadIterationsB0, IteratorB0::ThreadMap::kElementsPerAccess, IteratorB0::kAccessesPerVector // 12 16 1
+      // );
+
       // Move to the next stage
       iterator_A0.add_tile_offset({0, 1});
       iterator_B0.add_tile_offset({1, 0});
@@ -532,6 +553,14 @@ public:
     cutlass::arch::cp_async_wait<Base::kStages - 2>();
     __syncthreads();
 
+    // whatIsT<Operator0>();
+    // whatIsT<Operator0::IteratorA>();
+    // whatIsT<WarpLoadedFragmentA0>();
+    // whatIsT<WarpLoadedFragmentB0>();
+    // whatIsT<FragmentC0>();
+    // FragmentInfo<FragmentC0>();
+    // whatIsT<typename FragmentC0::Storage>();
+    // printf("%d\n", sizeof(accum0.storage)); // 384 = 96int32
     // Pair of fragments used to overlap shared memory loads and math
     // instructions
     WarpLoadedFragmentA0 warp_loaded_frag_A0[2];
@@ -695,7 +724,8 @@ public:
     int gemm_k_iterations_1 = Shape0::kN / Shape1::kK;
 
     // Issue several complete stages
-    CUTLASS_PRAGMA_UNROLL
+    // CUTLASS_PRAGMA_UNROLL
+    CUTLASS_GEMM_LOOP
     for (int stage = 0; stage < Base::kStages - 1;
          ++stage, --gemm_k_iterations_1) {
 
@@ -766,7 +796,6 @@ public:
 
     //
     // Mainloop
-    //
 
     CUTLASS_PRAGMA_UNROLL
     for ( gemm_k_iterations_1 = Shape0::kN / Shape1::kK - (Base::kStages - 1); 
@@ -823,7 +852,7 @@ public:
           group_start_iteration_B1 =
               (warp_mma_k + 1) * Detail::kAccessesPerGroupB1;
 
-          copy_tiles_and_advance_1(iterator_B1, group_start_iteration_B1);
+          copy_tiles_and_advance_1(iterator_B1, group_start_iteration_B1); // register out of use
 
           // Inserts a memory fence between stages of cp.async instructions.
           cutlass::arch::cp_async_fence();

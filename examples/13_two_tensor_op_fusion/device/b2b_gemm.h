@@ -308,11 +308,29 @@ public:
     cudaError_t result;
 
     int smem_size = int(sizeof(typename B2bGemmKernel::SharedStorage));
-    if (smem_size >= (48 << 10)) {
+    // if (smem_size >= (48 << 10)) {
+    //   result = cudaFuncSetAttribute(Kernel<B2bGemmKernel>,
+    //                                 cudaFuncAttributeMaxDynamicSharedMemorySize,
+    //                                 smem_size);
+
+    //   if (result != cudaSuccess) {
+    //     return Status::kErrorInternal;
+    //   }
+    // }
+    if (1) {
       result = cudaFuncSetAttribute(Kernel<B2bGemmKernel>,
                                     cudaFuncAttributeMaxDynamicSharedMemorySize,
                                     smem_size);
-
+      if (result != cudaSuccess) {
+        return Status::kErrorInternal;
+      }
+      // result = cudaFuncSetAttribute(Kernel<B2bGemmKernel>,
+      //                               cudaFuncAttributePreferredSharedMemoryCarveout,
+      //                               0);
+      // if (result != cudaSuccess) {
+      //   return Status::kErrorInternal;
+      // }
+      result = cudaFuncSetCacheConfig(Kernel<B2bGemmKernel>, cudaFuncCachePreferShared);
       if (result != cudaSuccess) {
         return Status::kErrorInternal;
       }

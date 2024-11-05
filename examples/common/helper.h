@@ -42,7 +42,7 @@
   {                                                                                              \
     cutlass::Status error = status;                                                              \
     if (error != cutlass::Status::kSuccess) {                                                    \
-      std::cerr << "Got cutlass error: " << cutlassGetStatusString(error) << " at: " << __LINE__ \
+      std::cerr << "Got cutlass error: " << cutlassGetStatusString(error) << " at: " <<__FILE__ << ":" << __LINE__ \
                 << std::endl;                                                                    \
       exit(EXIT_FAILURE);                                                                        \
     }                                                                                            \

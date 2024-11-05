@@ -76,6 +76,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 using data_type = cutlass::int4b_t;
+using ElementOutput = cutlass::int4b_t;
+using ElementAccumulator = int32_t;
+using ElementCompute = int32_t;
 
 /// Define a CUTLASS GEMM template and launch a GEMM kernel.
 cudaError_t CutlassSgemmNN(
@@ -102,12 +105,21 @@ cudaError_t CutlassSgemmNN(
 
   using ColumnMajor = cutlass::layout::ColumnMajor;
 
-  using CutlassGemm = cutlass::gemm::device::Gemm<data_type,        // Data-type of A matrix
-                                                  ColumnMajor,  // Layout of A matrix
-                                                  data_type,        // Data-type of B matrix
-                                                  ColumnMajor,  // Layout of B matrix
-                                                  data_type,        // Data-type of C matrix
-                                                  ColumnMajor>; // Layout of C matrix
+  // using CutlassGemm = cutlass::gemm::device::Gemm<data_type,        // Data-type of A matrix
+  //                                                 ColumnMajor,  // Layout of A matrix
+  //                                                 data_type,        // Data-type of B matrix
+  //                                                 ColumnMajor,  // Layout of B matrix
+  //                                                 data_type,        // Data-type of C matrix
+  //                                                 ColumnMajor>; // Layout of C matrix
+  using CutlassGemm = cutlass::gemm::device::Gemm<
+      data_type, cutlass::layout::RowMajor, data_type, cutlass::layout::ColumnMajor,
+      ElementOutput, cutlass::layout::ColumnMajor, ElementAccumulator,
+      cutlass::arch::OpClassTensorOp, cutlass::arch::Sm80,
+      cutlass::gemm::GemmShape<128, 256, 256>,
+      cutlass::gemm::GemmShape<64, 64, 256>, cutlass::gemm::GemmShape<16, 8, 64>,
+      cutlass::epilogue::thread::LinearCombinationClamp<
+          ElementOutput, 64 / cutlass::sizeof_bits<ElementOutput>::value, ElementAccumulator, ElementCompute>,
+      cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>, 3>;
 
   // Define a CUTLASS GEMM type
   CutlassGemm gemm_operator;
@@ -240,21 +252,21 @@ __global__ void ReferenceGemm_kernel(
   data_type const *B,
   int ldb,
   data_type beta,
-  data_type *C,
+  ElementOutput *C,
   int ldc) {
 
   int i = threadIdx.x + blockIdx.x * blockDim.x;
   int j = threadIdx.y + blockIdx.y * blockDim.y;
 
   if (i < M && j < N) {
-    float accumulator = 0;
+    ElementAccumulator accumulator = 0;
 
     for (int k = 0; k < K; ++k) {
       accumulator += A[i + k * lda] * B[k + j * ldb];
     }
 
-    C[i + j * ldc] = alpha * accumulator + beta * C[i + j * ldc];
-  }
+    C[i + j * ldc] = ElementOutput(alpha * accumulator + beta * C[i + j * ldc]);
+  } 
 }
 
 /// Reference GEMM computation.
@@ -268,7 +280,7 @@ cudaError_t ReferenceGemm(
   data_type const *B,
   int ldb,
   data_type beta,
-  data_type *C,
+  ElementOutput *C,
   int ldc) {
 
   dim3 block(16, 16);
@@ -440,6 +452,11 @@ cudaError_t TestCutlassGemm(int M, int N, int K, data_type alpha, data_type beta
   }
 
   result = cudaMemcpy(host_reference.data(), C_reference, sizeof_C, cudaMemcpyDeviceToHost);
+  for(int i = 0 ;i < ldc * N; i++){
+    if(host_cutlass[i]!= host_reference[i]){
+      std::cout << host_cutlass[i] << " " << host_reference[i] << std::endl;
+    }
+  }
 
   if (result != cudaSuccess) {
     std::cerr << "Failed to copy Reference GEMM results: "
@@ -498,7 +515,7 @@ int main(int argc, const char *arg[]) {
   }
 
   // Scalars used for linear scaling the result of the matrix product.
-  data_type scalars[2] = { 1, 0 };
+  data_type scalars[2] = { data_type(1), data_type(0) };
 
   // for (int i = 4; i < argc && i < 6; ++i) {
   //   std::stringstream ss(arg[i]);
