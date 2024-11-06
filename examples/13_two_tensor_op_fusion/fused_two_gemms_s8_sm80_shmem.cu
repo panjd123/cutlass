@@ -65,6 +65,8 @@
 // 384 -> 384 -> 384*4 -> 384
 #define SMEM_ACCUMULATOR true
 
+#define INTERLEAVE 32
+
 ////////////////////////////////////////////////////////////////////////////////
 
 cutlass::gemm::GemmCoord gemm_s8_sm80_problem_size_0(TESTM, TESTN1, TESTK);
@@ -87,20 +89,20 @@ bool run_nonfused_gemm_s8_sm80() {
   // using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
   // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
   #define NONFUSED_INSERT_POINT 0
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 64, 64>;
-  using WarpShape0 = cutlass::gemm::GemmShape<64, 64, 64>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 128, 64>;
-  using WarpShape1 = cutlass::gemm::GemmShape<64, 64, 64>;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 96, 64>;
+  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 96, 64>;
+  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
 
 
   using Gemm0 = cutlass::gemm::device::Gemm<
     int8_t,
-    cutlass::layout::ColumnMajorInterleaved<32>,
+    cutlass::layout::ColumnMajorInterleaved<INTERLEAVE>,
     int8_t,
-    cutlass::layout::RowMajorInterleaved<32>,
+    cutlass::layout::RowMajorInterleaved<INTERLEAVE>,
     ElementOutput,
-    cutlass::layout::ColumnMajorInterleaved<32>,
+    cutlass::layout::ColumnMajorInterleaved<INTERLEAVE>,
     ElementAccumulator,
     cutlass::arch::OpClassTensorOp,
     cutlass::arch::Sm80,
@@ -123,11 +125,11 @@ bool run_nonfused_gemm_s8_sm80() {
   >;
   using Gemm1 = cutlass::gemm::device::Gemm<
     int8_t,
-    cutlass::layout::ColumnMajorInterleaved<32>,
+    cutlass::layout::ColumnMajorInterleaved<INTERLEAVE>,
     int8_t,
-    cutlass::layout::RowMajorInterleaved<32>,
+    cutlass::layout::RowMajorInterleaved<INTERLEAVE>,
     ElementOutput,
-    cutlass::layout::ColumnMajorInterleaved<32>,
+    cutlass::layout::ColumnMajorInterleaved<INTERLEAVE>,
     ElementAccumulator,
     cutlass::arch::OpClassTensorOp,
     cutlass::arch::Sm80,
@@ -173,17 +175,18 @@ bool run_fused_gemm_s8_sm80_shmem() {
   ElementCompute alpha1 = ElementCompute(1);
   ElementCompute beta1 = ElementCompute(0); //beta=1 for bias
 
-  // using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, 32>;
-  // using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 32>;
-  // using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, 32>;
-  // using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 32>;
-  // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 16>;
+  // using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, 64>;
+  // using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
+  // using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, 64>;
+  // using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
+  // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
   #define FUSED_INSERT_POINT 0
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, 32>;
-  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 32>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, 32>;
-  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 32>;
-  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 16>;
+  static const int K = 64;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, K>;
+  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, K>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, K>;
+  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, K>;
+  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
 
   using EpilogueOutputOp0 =
     cutlass::epilogue::thread::LinearCombinationRelu<
@@ -207,11 +210,11 @@ bool run_fused_gemm_s8_sm80_shmem() {
 
   using B2bGemm = cutlass::gemm::device::B2bGemm<
     int8_t,
-    cutlass::layout::ColumnMajorInterleaved<32>,
+    cutlass::layout::ColumnMajorInterleaved<INTERLEAVE>,
     int8_t,
-    cutlass::layout::RowMajorInterleaved<32>,
+    cutlass::layout::RowMajorInterleaved<INTERLEAVE>,
     ElementOutput,
-    cutlass::layout::ColumnMajorInterleaved<32>,
+    cutlass::layout::ColumnMajorInterleaved<INTERLEAVE>,
     ElementAccumulator,
     cutlass::arch::OpClassTensorOp,
     cutlass::arch::Sm80,
@@ -230,7 +233,7 @@ bool run_fused_gemm_s8_sm80_shmem() {
     cutlass::arch::OpMultiplyAddSaturate
   >;
 
-  B2bInterleavedFusedGemmRun<B2bGemm, 32> fusedGemm;
+  B2bInterleavedFusedGemmRun<B2bGemm, INTERLEAVE> fusedGemm;
 
   std::cout << "Running Fused back-to-back INT8 NT interleaved GEMMs with shared memory staging...\n";
   bool passed = fusedGemm.run(

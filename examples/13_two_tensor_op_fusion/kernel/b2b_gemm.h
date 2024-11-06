@@ -377,7 +377,6 @@ struct B2bGemm {
       batch_stride_Scale0(batch_stride_Scale0),
       output_op_0(output_op_0),
       output_op_1(output_op_1) {
-
       int total_gemm_k_iterations_0 = (problem_size_0.k() + B2bMma::Shape0::kK - 1) / B2bMma::Shape0::kK;
       int gemm_k_iterations_0 = (total_gemm_k_iterations_0 + grid_tiled_shape.k() - 1) / grid_tiled_shape.k();
       gemm_k_size_0 = gemm_k_iterations_0 * B2bMma::Shape0::kK;
@@ -633,6 +632,8 @@ struct B2bGemm {
       {params.problem_size_0.m(), problem_size_k_0},
       thread_idx,
       tb_offset_A0);
+    
+    // whatIsT2<typename B2bMma::IteratorA0, 1> wT2;
 
     typename B2bMma::IteratorB0 iterator_B0(
       params.params_B0,

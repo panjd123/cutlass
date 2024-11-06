@@ -293,7 +293,7 @@ struct DefaultB2bGemm<
       ElementAccumulator, LayoutC, arch::OpClassTensorOp, arch::Sm80,
       ThreadblockShape0, ThreadblockShape1, WarpShape0, WarpShape1,
       InstructionShape, Stages, Operator, EpilogueOutputOp0,
-      true, true>::ThreadblockB2bMma;
+      true, true>::ThreadblockB2bMma; // from here
 
   static const int kPartitionsK1 = ThreadblockShape1::kK / WarpShape1::kK;
 

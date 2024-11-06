@@ -148,6 +148,7 @@ class B2bGemm {
   using EpilogueOutputOp0 = EpilogueOutputOp0_;
   using EpilogueOutputOp1 = EpilogueOutputOp1_;
   using ThreadblockSwizzle = ThreadblockSwizzle_;
+  whatIsT<ThreadblockSwizzle, true, 201> w;
   using Operator = Operator_;
   static int const kStages = Stages;
   static int const kAlignmentA = AlignmentA;

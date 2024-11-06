@@ -1827,7 +1827,7 @@ struct DefaultMmaCore<Shape_, WarpShape_, InstructionShape_, ElementA_,
                       layout::ColumnMajorInterleaved<InterleavedK>, ElementB_,
                       layout::RowMajorInterleaved<InterleavedK>, ElementC_,
                       LayoutC_, arch::OpClassTensorOp, Stages, Operator_,
-                      AccumulatorsInRowMajor, CacheOpA, CacheOpB> {
+                      AccumulatorsInRowMajor, CacheOpA, CacheOpB> { // from here
   using Shape = Shape_;
   using WarpShape = WarpShape_;
   using InstructionShape = InstructionShape_;
@@ -1899,6 +1899,11 @@ struct DefaultMmaCore<Shape_, WarpShape_, InstructionShape_, ElementA_,
       layout::PitchLinearShape<Shape::kM * kInterleavedK,
                                Shape::kK / kInterleavedK>,
       kThreads, layout::PitchLinearShape<32, 1>, kElementsPerAccess>;
+
+  static const int CONDITION = Shape::kM * kInterleavedK == 1024;
+  whatIsN<Shape::kM, CONDITION, 8> a1;
+  whatIsN<kInterleavedK, CONDITION, 9> a2;
+  whatIsT<IteratorThreadMapA, CONDITION, 7> a;
 
   /// Transpose the ThreadMap of iterator A
   using SmemThreadMapA = transform::TransposePitchLinearThreadMap<

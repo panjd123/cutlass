@@ -83,6 +83,8 @@ class B2bMmaBase {
   /// Warp-level Mma
   using Operator0 = typename Policy0::Operator;
   using Operator1 = typename Policy1::Operator;
+  whatIsT<Operator0, 1, 101> a;
+  whatIsT<Operator1, 1, 102> b;
 
   /// Shape describing the overall GEMM computed from shared memory
   /// by each warp.

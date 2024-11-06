@@ -269,12 +269,29 @@ struct PitchLinearWarpRakedThreadMap {
     static_assert(
       !(ShapeInAccesses::kStrided % WarpThreadArrangement::kStrided),
       "ShapeInAccesses must be divisible by WarpThreadArrangement.");
+    
+    static const int CONDITION = ShapeInAccesses::kContiguous / WarpThreadArrangement::kContiguous == 2;
+
+    whatIsN<kThreads, CONDITION, 7> tmp5;
+    whatIsN<kWarpSize, CONDITION, 8> tmp6;
+    whatIsN<kWarpCount, CONDITION, 9> tmp7;
+
+    whatIsN<Shape::kContiguous, CONDITION, 5> tmp3; // 1024
+    whatIsN<kElementsPerAccess, CONDITION, 6> tmp4; // 16
+
+    whatIsN<ShapeInAccesses::kContiguous, CONDITION, 3> tmp1; // 64
+    whatIsN<WarpThreadArrangement::kContiguous, CONDITION, 4> tmp2; // 32
 
     // compute number of warp-level accesses total
     using WarpAccessIterations = layout::PitchLinearShape<
-      ShapeInAccesses::kContiguous / WarpThreadArrangement::kContiguous,
+      ShapeInAccesses::kContiguous / WarpThreadArrangement::kContiguous, // 64 / 32
       ShapeInAccesses::kStrided / WarpThreadArrangement::kStrided
     >;
+
+    // whatIsN<ShapeInAccesses::kStrided, WarpAccessIterations::kStrided == 0, 11> tmp9;
+    // whatIsN<WarpThreadArrangement::kStrided, WarpAccessIterations::kStrided == 0, 12> tmp10;
+
+    whatIsT<WarpAccessIterations, CONDITION, 10> tmp8;
 
     // Divide it into the number of warps, first partitioning the strided dimension then the
     // contiguous.
@@ -303,7 +320,11 @@ struct PitchLinearWarpRakedThreadMap {
   using Iterations = layout::PitchLinearShape<
     Detail::WarpAccessIterations::kContiguous / Detail::kWarpsContiguous,
     Detail::WarpAccessIterations::kStrided / Detail::kWarpsStrided
-  >;
+  >; // 2/4, 1
+
+  whatIsN<Detail::WarpAccessIterations::kContiguous, Iterations::kCount==0, 1> tmpa;
+  whatIsN<Detail::kWarpsContiguous, Iterations::kCount==0, 2> tmpb;
+  // whatIsT<Iterations, Iterations::kCount> tmpc;
 
   static_assert(Iterations::kCount,
     "Number of iterations must be non-zero");

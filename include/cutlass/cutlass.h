@@ -156,14 +156,39 @@ int canonical_warp_group_idx() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template <typename T>
-__attribute__((warning("Debug")))
-void debugFunction() {}
+#if 0
 
-template <int N>
-struct Debug {
-  static_assert(N == 1919888, "Debug");
+template <int N, int condition, int tag>
+class whatIsN{
+  static_assert(N == 100876 || !condition, "whatIsN");
 };
+
+template <typename T, int condition, int tag>
+class whatIsT{
+  static_assert(sizeof(T) == 100876 || !condition, "whatIsT");
+};
+
+#else
+
+template <int N, int condition, int tag>
+class whatIsN{
+};
+
+template <typename T, int condition, int tag>
+class whatIsT{
+};
+
+template <int N, int tag>
+class whatIsN2{
+  static_assert(N == 100876, "whatIsN");
+};
+
+template <typename T, int tag>
+class whatIsT2{
+  static_assert(sizeof(T) == 100876, "whatIsT");
+};
+
+#endif
 
 }  // namespace cutlass
 
