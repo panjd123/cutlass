@@ -299,7 +299,7 @@ struct DefaultB2bMma<ElementA, LayoutA, kAlignmentA, ElementB, LayoutB,
           InstructionShape,
           typename EpilogueOutputOp::ElementOutput,
           SmemAccumulatorLayout
-        >;
+        >; // here 2
 
   static int const kThreadCount = 32;
   // load warp tile from Shared Memory accumulator
@@ -506,7 +506,7 @@ struct DefaultB2bMma<ElementA, LayoutA, kAlignmentA, ElementB, LayoutB,
       ThreadblockShape0, WarpShape0, InstructionShape, ElementA, LayoutA,
       ElementB, LayoutB, ElementAccumulator,
       layout::ColumnMajorInterleaved<InterleavedK>, OperatorClass, Stages,
-      Operator, true>; // from here
+      Operator, true>; // here 0
   using MmaCore1 = typename cutlass::gemm::threadblock::DefaultMmaCore<
       ThreadblockShape1, WarpShape1, InstructionShape, ElementA, LayoutA,
       ElementB, LayoutB, ElementAccumulator,
@@ -514,7 +514,7 @@ struct DefaultB2bMma<ElementA, LayoutA, kAlignmentA, ElementB, LayoutB,
       Operator, true>;
 
   // Define iterators over tiles from the A operand
-  using ThreadMapA0 = typename MmaCore0::IteratorThreadMapA; // from here, 1024
+  using ThreadMapA0 = typename MmaCore0::IteratorThreadMapA; // from here 1, 1024
   using AccessTypeA = cutlass::Array<ElementA, kAlignmentA>;
   using IteratorA0 =
       cutlass::transform::threadblock::PredicatedTileAccessIterator<

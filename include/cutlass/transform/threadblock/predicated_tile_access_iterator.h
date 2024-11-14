@@ -93,6 +93,9 @@ class PredicatedTileAccessIteratorPredicates {
   static int const kPredicatesPerWord = 4 * kPredicatesPerByte;
 
   static int const kPredicateCount = ThreadMap::Iterations::kCount * kAccessesPerVector;
+  // whatIsN2<ThreadMap::kElementsPerAccess, 1> a;
+  // whatIsN2<AccessType::kElements, 2> b;
+  // whatIsN2<ThreadMap::Iterations::kCount, 3> c;
 
   /// Number of 32b words containing predicates
   static int const kPredicateByteCount =
@@ -559,6 +562,9 @@ class PredicatedTileAccessIterator<Shape_, Element_, layout::PitchLinear,
 
     is_residue_tile_ = false;
   }
+
+  // whatIsT2<ThreadMap, 888> fuck1;
+  // whatIsT2<ThreadMap::Delta, 999> fuck;
 
   /// Returns a pointer
   CUTLASS_HOST_DEVICE

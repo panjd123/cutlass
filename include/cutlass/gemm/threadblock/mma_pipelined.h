@@ -89,7 +89,7 @@ template <
   /// Used for partial specialization
   typename Enable = bool
 >
-class MmaPipelined : public MmaBase<Shape_, Policy_, 2> {
+class MmaPipelined : public MmaBase<Shape_, Policy_, -1> { // TODO: temp diable
 public:
 
   ///< Base class

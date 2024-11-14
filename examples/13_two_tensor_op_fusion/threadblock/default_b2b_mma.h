@@ -378,7 +378,7 @@ struct DefaultB2bMma<ElementA, LayoutA, kAlignmentA, ElementB, LayoutB,
                   kAlignmentB, ElementAccumulator,
                   layout::ColumnMajorInterleaved<InterleavedK>, OperatorClass, arch::Sm75, 
                   ThreadblockShape0, ThreadblockShape1, WarpShape0, WarpShape1,
-                  InstructionShape, 2, Operator, EpilogueOutputOp, true> {
+                  InstructionShape, -1, Operator, EpilogueOutputOp, true> { // TODO: tmp disable
   // Define the MmaCore components
   using MmaCore0 = typename cutlass::gemm::threadblock::DefaultMmaCore<
       ThreadblockShape0, WarpShape0, InstructionShape, ElementA, LayoutA,

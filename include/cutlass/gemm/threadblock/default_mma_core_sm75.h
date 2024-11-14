@@ -1199,7 +1199,7 @@ template <
 struct DefaultMmaCore<Shape_, WarpShape_, InstructionShape_, ElementA_,
                       layout::ColumnMajorInterleaved<InterleavedK>, ElementB_,
                       layout::RowMajorInterleaved<InterleavedK>, ElementC_,
-                      LayoutC_, arch::OpClassTensorOp, 2, Operator_,
+                      LayoutC_, arch::OpClassTensorOp, -1, Operator_, // TODO: temp disable
                       AccumulatorsInRowMajor> {
   using Shape = Shape_;
   using WarpShape = WarpShape_;

@@ -3,9 +3,9 @@
 # cmake -B debug -DCMAKE_BUILD_TYPE=Debug -DCUTLASS_NVCC_ARCHS=80  -DCMAKE_CUDA_ARCHITECTURES=80 -DCUTLASS_ENABLE_CUBLAS=ON -DCUTLASS_ENABLE_CUDNN=ON .
 # cmake -B build -DCMAKE_BUILD_TYPE=Release -DCUTLASS_NVCC_ARCHS=80 -DCMAKE_CUDA_ARCHITECTURES=80 -DCUTLASS_ENABLE_CUBLAS=ON -DCUTLASS_ENABLE_CUDNN=ON .
 
-ncu_output=${1:-"report80"}
+ncu_output=${1:-"report-test"}
 
-target=13_fused_two_gemms_s4_sm80_shmem
+target=13_test
 
 # cmake --build build --target $target
 cd build
@@ -26,8 +26,8 @@ fi
 if [ "$ncu_output" = "0" ]; then
     exit 0
 fi
-echo "output: $ncu_output.ncu-rep"
-ncu --cache-control all --clock-control base --target-processes all --rule SOLBottleneck --set full \
-    --nvtx --nvtx-include "Fused-GEMM/" --nvtx-include "Non-fused-GEMM/" --import-source on --call-stack \
-    -o $ncu_output.ncu-rep -f \
-    ./build/examples/13_two_tensor_op_fusion/$target
+# echo "output: $ncu_output.ncu-rep"
+# ncu --cache-control all --clock-control base --target-processes all --rule SOLBottleneck --set full \
+#     --nvtx --nvtx-include "Fused-GEMM/" --nvtx-include "Non-fused-GEMM/" --import-source on --call-stack \
+#     -o $ncu_output.ncu-rep -f \
+#     ./build/examples/13_two_tensor_op_fusion/$target

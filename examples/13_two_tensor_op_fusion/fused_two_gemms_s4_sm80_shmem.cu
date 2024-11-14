@@ -44,14 +44,16 @@
 #include "b2b_interleaved_gemm_run.h"
 #include "test_run.h"
 
-using element_t = int8_t;
+using element_t = cutlass::int4b_t;
 
 constexpr int STAGES = 3;
-constexpr int FUSED_SHAPE_K = 64;
+
+constexpr int INSTRUCTION_SHAPE_K = 64;
+constexpr int FUSED_SHAPE_K = 2 * INSTRUCTION_SHAPE_K;
 
 constexpr bool UseMajor = false;
 
-constexpr int INTERLEAVE = UseMajor ? 0 : 32;
+constexpr int INTERLEAVE = UseMajor ? 0 : 64;
 constexpr bool SMEM_ACCUMULATOR = true;
 
 #define TESTM 12*256
@@ -61,11 +63,11 @@ constexpr bool SMEM_ACCUMULATOR = true;
 #endif
 
 #ifndef TESTN1
-#define TESTN1 320
+#define TESTN1 384
 #endif
 
 #ifndef TESTN2
-#define TESTN2 320
+#define TESTN2 384
 #endif
 
 // K -> N1 -> N2
@@ -93,11 +95,11 @@ bool run_nonfused_gemm_s8_sm80() {
   // using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
   // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
   #define NONFUSED_INSERT_POINT 0
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 96, 64>;
-  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 96, 64>;
-  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
-  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 96, 128>;
+  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 128>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 96, 128>;
+  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 128>;
+  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 64>;
 
 
   using Gemm0 = cutlass::gemm::device::Gemm<
@@ -122,8 +124,8 @@ bool run_nonfused_gemm_s8_sm80() {
     >,
     cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,
     STAGES,
-    16,
-    16,
+    32,
+    32,
     false,
     cutlass::arch::OpMultiplyAddSaturate
   >;
@@ -149,15 +151,15 @@ bool run_nonfused_gemm_s8_sm80() {
     >,
     cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,
     STAGES,
-    16,
-    16,
+    32,
+    32,
     false,
     cutlass::arch::OpMultiplyAddSaturate
   >;
 
   B2bInterleavedNonFusedGemmRun<Gemm0, Gemm1, INTERLEAVE> nonFusedGemm;
 
-  std::cout << "Running Non-fused back-to-back INT8 NT interleaved GEMMs...\n";
+  std::cout << "Running Non-fused back-to-back INT4 NT interleaved GEMMs...\n";
   bool pass = nonFusedGemm.run(gemm_s8_sm80_problem_size_0, gemm_s8_sm80_problem_size_1, alpha0, beta0, alpha1, beta1);
   if(pass)
     std::cout << "Pass\n";
@@ -165,6 +167,7 @@ bool run_nonfused_gemm_s8_sm80() {
     std::cout << "Fail\n";
 
   return pass;
+  // return 1;
 }
 
 bool run_fused_gemm_s8_sm80_shmem() {
@@ -189,12 +192,13 @@ bool run_fused_gemm_s8_sm80_shmem() {
   using WarpShape0 = cutlass::gemm::GemmShape<32, TESTN1 / 4, FUSED_SHAPE_K>;
   using ThreadblockShape1 = cutlass::gemm::GemmShape<32, TESTN2, FUSED_SHAPE_K>;
   using WarpShape1 = cutlass::gemm::GemmShape<32, TESTN2 / 4, FUSED_SHAPE_K>;
-  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
+  using InstructionShape = cutlass::gemm::GemmShape<16, 8, INSTRUCTION_SHAPE_K>;
 
   using EpilogueOutputOp0 =
     cutlass::epilogue::thread::LinearCombinationRelu<
       ElementOutput,
-      8 * InstructionShape::kN / 32,
+      // 8 * InstructionShape::kN / 32,
+      64 / cutlass::sizeof_bits<ElementOutput>::value,
       ElementAccumulator,
       ElementCompute,
       cutlass::epilogue::thread::ScaleType::Nothing
@@ -229,14 +233,14 @@ bool run_fused_gemm_s8_sm80_shmem() {
     cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,
     STAGES,
     SMEM_ACCUMULATOR,
-    16,
-    16,
+    32,
+    32,
     cutlass::arch::OpMultiplyAddSaturate
   >;
 
   B2bInterleavedFusedGemmRun<B2bGemm, INTERLEAVE> fusedGemm;
 
-  std::cout << "Running Fused back-to-back INT8 NT interleaved GEMMs with shared memory staging...\n";
+  std::cout << "Running Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\n";
   bool passed = fusedGemm.run(
     gemm_s8_sm80_problem_size_0,
     gemm_s8_sm80_problem_size_1,
@@ -252,6 +256,7 @@ bool run_fused_gemm_s8_sm80_shmem() {
     std::cout << "Fail\n";
 
   return passed;
+  // return 1;
 }
 
 
@@ -266,7 +271,7 @@ int main() {
     &run_nonfused_gemm_s8_sm80
   };
 
-  return testRun(80, funcs, "gemm int8 RF residency");
+  return testRun(80, funcs, "gemm int4 RF residency");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

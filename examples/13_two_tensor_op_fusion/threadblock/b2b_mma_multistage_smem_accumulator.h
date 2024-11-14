@@ -144,6 +144,7 @@ public:
   using Policy0 = Policy0_;
 
   using SmemIteratorA0 = SmemIteratorA0_;
+  whatIsT2<SmemIteratorA0, -3> wT3;
   using SmemIteratorB0 = SmemIteratorB0_;
   using SmemIteratorD0 = SmemIteratorD0_; ///< Iterates over accumulator tile in shared memory
 
@@ -465,7 +466,8 @@ public:
     // Prologue
     //
     // printf("Init gemm_k_iterations_0: %d\nkStages: %d\n", gemm_k_iterations_0, Base::kStages); // 6 3
-
+    whatIsN2<IteratorA0::ThreadMap::kElementsPerAccess, -1> a1; // 16
+    whatIsN2<IteratorA0::kAccessesPerVector, -1> b1; // 1
     // Issue several complete stages
     CUTLASS_PRAGMA_UNROLL
     for (int stage = 0; stage < Base::kStages - 1;
@@ -833,8 +835,8 @@ public:
 
         warp_mma1(
           accum, 
-          warp_transformed_frag_A1[warp_mma_k % 2],
-          warp_transformed_frag_B1[warp_mma_k % 2], 
+          warp_transformed_frag_A0[warp_mma_k % 2], // TODO: A1
+          warp_transformed_frag_B0[warp_mma_k % 2], // TODO: B1
           accum
         );
 

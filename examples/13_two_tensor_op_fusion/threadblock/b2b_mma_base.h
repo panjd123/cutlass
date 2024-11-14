@@ -154,6 +154,8 @@ class B2bMmaBase {
     /// Buffer for B operand
     AlignedBuffer<typename Operator::ElementB, ShapeB::kCount> operand_B;
 
+    // AlignedBuffer<int8_t, 18*1024> placeholder; // 2nd GEMM shared memory
+
    public:
 
     //

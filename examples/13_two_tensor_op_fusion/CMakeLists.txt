@@ -72,6 +72,8 @@ foreach(FUSION_GEMM_EXAMPLE
   fused_two_gemms_s8_sm80_rf
   fused_two_gemms_s8_sm80_shmem
   # fused_two_gemms_s4_sm80_rf
+  fused_two_gemms_s4_sm80_shmem
+  test
 )
   cutlass_example_add_executable(
     13_${FUSION_GEMM_EXAMPLE}

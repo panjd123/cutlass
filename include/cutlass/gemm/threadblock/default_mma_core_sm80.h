@@ -1914,7 +1914,7 @@ struct DefaultMmaCore<Shape_, WarpShape_, InstructionShape_, ElementA_,
   /// Shared memory iterator to A operand
   using SmemIteratorA = transform::threadblock::RegularTileAccessIterator<
       MatrixShape<Shape::kM, Shape::kK>, ElementA, SmemLayoutA, 0,
-      SmemThreadMapA>;
+      SmemThreadMapA>; // here
 
   /// ThreadMap of iterator B
   using IteratorThreadMapB = transform::PitchLinearWarpRakedThreadMap<

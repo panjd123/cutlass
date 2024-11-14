@@ -208,7 +208,8 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DCUTLASS_VERSIONS_GENERATED")
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -DCUTLASS_VERSIONS_GENERATED")
-set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -lineinfo -maxrregcount=255 --use_fast_math --ptxas-options=-v,-warn-lmem-usage,--warn-on-spills")
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -lineinfo")
+# set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -lineinfo -maxrregcount=255 --use_fast_math --ptxas-options=-v,-warn-lmem-usage,--warn-on-spills")
 
 if (WIN32)
   # Enable more warnings.  Add "-Xcompiler=/WX" to enable warnings as errors.
