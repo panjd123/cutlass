@@ -188,10 +188,10 @@ bool run_fused_gemm_s8_sm80_shmem() {
   // using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
   // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
   #define FUSED_INSERT_POINT 0
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<32, TESTN1, FUSED_SHAPE_K>;
-  using WarpShape0 = cutlass::gemm::GemmShape<32, TESTN1 / 4, FUSED_SHAPE_K>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<32, TESTN2, FUSED_SHAPE_K>;
-  using WarpShape1 = cutlass::gemm::GemmShape<32, TESTN2 / 4, FUSED_SHAPE_K>;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, 128>;
+  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 128>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, 128>;
+  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 128>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, INSTRUCTION_SHAPE_K>;
 
   using EpilogueOutputOp0 =
@@ -267,7 +267,7 @@ int main() {
 
   CUDA_CHECK(cudaSetDevice(device_count - 1));
   std::vector<bool (*)()>funcs = {
-    &run_fused_gemm_s8_sm80_shmem,
+    // &run_fused_gemm_s8_sm80_shmem,
     &run_nonfused_gemm_s8_sm80
   };
 

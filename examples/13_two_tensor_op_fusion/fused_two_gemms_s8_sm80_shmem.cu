@@ -47,7 +47,7 @@
 using element_t = int8_t;
 
 constexpr int STAGES = 3;
-constexpr int FUSED_SHAPE_K = 64;
+constexpr int FUSED_SHAPE_K = 32;
 
 constexpr bool UseMajor = false;
 
@@ -97,7 +97,7 @@ bool run_nonfused_gemm_s8_sm80() {
   using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
   using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 96, 64>;
   using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
-  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
+  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 16>;
 
 
   using Gemm0 = cutlass::gemm::device::Gemm<
@@ -189,7 +189,7 @@ bool run_fused_gemm_s8_sm80_shmem() {
   using WarpShape0 = cutlass::gemm::GemmShape<32, TESTN1 / 4, FUSED_SHAPE_K>;
   using ThreadblockShape1 = cutlass::gemm::GemmShape<32, TESTN2, FUSED_SHAPE_K>;
   using WarpShape1 = cutlass::gemm::GemmShape<32, TESTN2 / 4, FUSED_SHAPE_K>;
-  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
+  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 16>;
 
   using EpilogueOutputOp0 =
     cutlass::epilogue::thread::LinearCombinationRelu<

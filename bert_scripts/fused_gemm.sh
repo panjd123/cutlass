@@ -5,7 +5,7 @@
 
 ncu_output=${1:-"report80"}
 
-target=13_fused_two_gemms_s4_sm80_shmem
+target=13_fused_two_gemms_s8_sm80_shmem
 
 # cmake --build build --target $target
 cd build
@@ -23,11 +23,11 @@ fi
 # ./build/examples/13_two_tensor_op_fusion/13_fused_two_gemms_s8_sm80_rf
 ./build/examples/13_two_tensor_op_fusion/$target
 
-if [ "$ncu_output" = "0" ]; then
-    exit 0
-fi
-echo "output: $ncu_output.ncu-rep"
-ncu --cache-control all --clock-control base --target-processes all --rule SOLBottleneck --set full \
-    --nvtx --nvtx-include "Fused-GEMM/" --nvtx-include "Non-fused-GEMM/" --import-source on --call-stack \
-    -o $ncu_output.ncu-rep -f \
-    ./build/examples/13_two_tensor_op_fusion/$target
+# if [ "$ncu_output" = "0" ]; then
+#     exit 0
+# fi
+# echo "output: $ncu_output.ncu-rep"
+# ncu --cache-control all --clock-control base --target-processes all --rule SOLBottleneck --set full \
+#     --nvtx --nvtx-include "Fused-GEMM/" --nvtx-include "Non-fused-GEMM/" --import-source on --call-stack \
+#     -o $ncu_output.ncu-rep -f \
+#     ./build/examples/13_two_tensor_op_fusion/$target
