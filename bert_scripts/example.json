@@ -1,0 +1,32 @@
+[
+  {
+    "data": {
+      "N1": 384,
+      "N2": 384,
+      "NFThreadblockShapeK": 128,
+      "NFThreadblockShapeM": 192,
+      "NFThreadblockShapeN": 96,
+      "NFWarpShapeK": 128,
+      "NFWarpShapeM": 96,
+      "NFWarpShapeN": 32
+    },
+    "status": 0,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 2\nDevice: NVIDIA A100 80GB PCIe\nArch: SM80\nTest: gemm int4 RF residency\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 96, 1, 1 and block = 128, 1, 1\nShared memory size = 86272\nFusion time 0.0110062 ms\nPass\nRunning Non-fused back-to-back INT4 NT interleaved GEMMs...\ngemm 0 time 0.00458598 ms\ngemm 1 time 0.00462694 ms\nNon-fusion time 0.00921293 ms\nPass\n"
+  },
+  {
+    "data": {
+      "N1": 384,
+      "N2": 384,
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 192,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 96,
+      "FWarpShapeN": 96
+    },
+    "status": 0,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 2\nDevice: NVIDIA A100 80GB PCIe\nArch: SM80\nTest: gemm int4 RF residency\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 96, 1, 1 and block = 128, 1, 1\nShared memory size = 86272\nFusion time 0.0110281 ms\nPass\nRunning Non-fused back-to-back INT4 NT interleaved GEMMs...\ngemm 0 time 0.0100711 ms\ngemm 1 time 0.00998246 ms\nNon-fusion time 0.0200536 ms\nPass\n"
+  }
+]

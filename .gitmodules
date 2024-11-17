@@ -1,0 +1,3 @@
+[submodule "parabuild-rust"]
+	path = parabuild-rust
+	url = git@github.com:panjd123/parabuild-rust.git

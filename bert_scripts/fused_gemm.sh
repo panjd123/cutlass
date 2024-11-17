@@ -5,7 +5,7 @@
 
 ncu_output=${1:-"report80"}
 
-target=13_fused_two_gemms_s8_sm80_shmem
+target=13_fused_two_gemms_s4_sm80_shmem
 
 # cmake --build build --target $target
 cd build

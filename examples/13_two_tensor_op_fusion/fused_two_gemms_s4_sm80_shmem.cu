@@ -49,7 +49,7 @@ using element_t = cutlass::int4b_t;
 constexpr int STAGES = 3;
 
 constexpr int INSTRUCTION_SHAPE_K = 64;
-constexpr int FUSED_SHAPE_K = 2 * INSTRUCTION_SHAPE_K;
+constexpr int FUSED_SHAPE_K = 128;
 
 constexpr bool UseMajor = false;
 
@@ -62,12 +62,12 @@ constexpr bool SMEM_ACCUMULATOR = true;
 #define TESTK 384
 #endif
 
-#ifndef TESTN1
+#ifndef PROFILING
 #define TESTN1 384
-#endif
-
-#ifndef TESTN2
 #define TESTN2 384
+#else
+#define TESTN1 {{default N1 "384"}}
+#define TESTN2 {{default N2 "384"}}
 #endif
 
 // K -> N1 -> N2
@@ -89,18 +89,19 @@ bool run_nonfused_gemm_s8_sm80() {
   ElementCompute alpha1 = ElementCompute(1);
   ElementCompute beta1 = ElementCompute(0); //beta=1 for bias
 
-  // using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 96, 64>;
-  // using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
-  // using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 96, 64>;
-  // using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
-  // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
-  #define NONFUSED_INSERT_POINT 0
+#ifndef PROFILING
   using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 96, 128>;
   using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 128>;
   using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 96, 128>;
   using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 128>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, 64>;
-
+#else
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<{{default NFThreadblockShapeM "128"}}, {{default NFThreadblockShapeN "96"}}, {{default NFThreadblockShapeK "128"}}>;
+  using WarpShape0 = cutlass::gemm::GemmShape<{{default NFWarpShapeM "32"}}, {{default NFWarpShapeN "96"}}, {{default NFWarpShapeK "128"}}>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<{{default NFThreadblockShapeM "128"}}, {{default NFThreadblockShapeN "96"}}, {{default NFThreadblockShapeK "128"}}>;
+  using WarpShape1 = cutlass::gemm::GemmShape<{{default NFWarpShapeM "32"}}, {{default NFWarpShapeN "96"}}, {{default NFWarpShapeK "128"}}>;
+  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 64>;
+#endif
 
   using Gemm0 = cutlass::gemm::device::Gemm<
     element_t,
@@ -182,17 +183,19 @@ bool run_fused_gemm_s8_sm80_shmem() {
   ElementCompute alpha1 = ElementCompute(1);
   ElementCompute beta1 = ElementCompute(0); //beta=1 for bias
 
-  // using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, 64>;
-  // using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 64>;
-  // using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, 64>;
-  // using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 64>;
-  // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 32>;
-  #define FUSED_INSERT_POINT 0
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, 128>;
-  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, 128>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, 128>;
-  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, 128>;
+#ifndef PROFILING
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<32, 384, FUSED_SHAPE_K>;
+  using WarpShape0 = cutlass::gemm::GemmShape<32, 96, FUSED_SHAPE_K>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<32, 384, FUSED_SHAPE_K>;
+  using WarpShape1 = cutlass::gemm::GemmShape<32, 96, FUSED_SHAPE_K>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, INSTRUCTION_SHAPE_K>;
+#else
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<{{default FThreadblockShapeM "32"}}, {{default FThreadblockShapeN "TESTN1"}}, {{default FThreadblockShapeK "FUSED_SHAPE_K"}}>;
+  using WarpShape0 = cutlass::gemm::GemmShape<{{default FWarpShapeM "32"}}, {{default FWarpShapeN "TESTN1/4"}}, {{default FWarpShapeK "FUSED_SHAPE_K"}}>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<{{default FThreadblockShapeM "32"}}, {{default FThreadblockShapeN "TESTN2"}}, {{default FThreadblockShapeK "FUSED_SHAPE_K"}}>;
+  using WarpShape1 = cutlass::gemm::GemmShape<{{default FWarpShapeM "32"}}, {{default FWarpShapeN "TESTN2/4"}}, {{default FWarpShapeK "FUSED_SHAPE_K"}}>;
+  using InstructionShape = cutlass::gemm::GemmShape<16, 8, 64>;
+#endif
 
   using EpilogueOutputOp0 =
     cutlass::epilogue::thread::LinearCombinationRelu<
@@ -267,7 +270,7 @@ int main() {
 
   CUDA_CHECK(cudaSetDevice(device_count - 1));
   std::vector<bool (*)()>funcs = {
-    // &run_fused_gemm_s8_sm80_shmem,
+    &run_fused_gemm_s8_sm80_shmem,
     &run_nonfused_gemm_s8_sm80
   };
 

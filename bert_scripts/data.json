@@ -1,0 +1,18 @@
+[
+    {
+    "N1": 384,
+    "N2": 384,
+    "FThreadblockShapeM" : 32,
+    "FThreadblockShapeN" : 384,
+    "FThreadblockShapeK" : 64,
+    "FWarpShapeM": 32,
+    "FWarpShapeN": 96,
+    "FWarpShapeK": 64,
+    "NFThreadblockShapeM" : 128,
+    "NFThreadblockShapeN" : 96,
+    "NFThreadblockShapeK" : 64,
+    "NFWarpShapeM": 32,
+    "NFWarpShapeN": 96,
+    "NFWarpShapeK": 64
+   }
+]
