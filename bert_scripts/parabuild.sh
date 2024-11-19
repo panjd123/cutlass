@@ -9,7 +9,7 @@ parabuild . \
     --init-cmake-args="-DCMAKE_BUILD_TYPE=Release -DCUTLASS_NVCC_ARCHS=80 -DCMAKE_CUDA_ARCHITECTURES=80 -DCUTLASS_ENABLE_CUBLAS=ON -DCUTLASS_ENABLE_CUDNN=ON" \
     --data-file "bert_scripts/sample.json" \
     --progress-bar \
-    -j 46 \
+    -j 45 \
     -J 2 \
     -o bert_scripts/example.json
 
@@ -22,7 +22,7 @@ parabuild . \
     --init-cmake-args="-DCMAKE_BUILD_TYPE=Release -DCUTLASS_NVCC_ARCHS=80 -DCMAKE_CUDA_ARCHITECTURES=80 -DCUTLASS_ENABLE_CUBLAS=ON -DCUTLASS_ENABLE_CUDNN=ON" \
     --data-file "bert_scripts/all.json" \
     --progress-bar \
-    -j 46 \
+    -j 45 \
     -J 2 \
     --cache \
     -o bert_scripts/output.json

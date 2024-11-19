@@ -51,6 +51,9 @@
 
 #include <nvToolsExt.h>
 
+const int WARMUP_RUNS = 5;
+const int RUNS = 1000;
+
 #define CHECK_GT(val1, val2) \
     if((val1) <= (val2)) \
         std::cerr << __FILE__ << " " << __LINE__ << ": CHECK_GT failed\n";
@@ -138,8 +141,8 @@ struct B2bInterleavedNonFusedGemmRun
     ElementCompute alpha1 = ElementCompute(1),
     ElementCompute beta1 = ElementCompute(0),
     bool relu = true,
-    int warm_ups = 100,
-    int runs = 10000) {
+    int warm_ups = WARMUP_RUNS,
+    int runs = RUNS) {
 
     //
     // Allocate the GEMM workspace
@@ -505,8 +508,8 @@ struct B2bInterleavedFusedGemmRun
     int64_t batch_stride_Bias0 = 0,
     int64_t batch_stride_Scale0 = 0,
     bool relu = true,
-    int warm_ups = 100,
-    int runs = 10000) {
+    int warm_ups = WARMUP_RUNS,
+    int runs = RUNS) {
 
     //
     // Allocate the GEMM workspace

@@ -45,6 +45,7 @@ def generate_json(fused=True):
                                     "NFWarpShapeM": wsm,
                                     "NFWarpShapeN": wsn,
                                     "NFWarpShapeK": wsk,
+                                    "Fused": False
                                 }
                                 datas.append(data)
     else:
@@ -69,6 +70,7 @@ def generate_json(fused=True):
                                     "FWarpShapeM": wsm,
                                     "FWarpShapeN": wsn,
                                     "FWarpShapeK": wsk,
+                                    "Fused": True
                                 }
                                 datas.append(data)
     return datas
@@ -82,5 +84,5 @@ if __name__ == "__main__":
     datas_all = datas_fused + datas_non_fused
     json.dump(datas_all, open("all.json", "w"))
 
-    datas_sample = np.random.choice(datas_all, int(0.01 * len(datas_all)), replace=False)
+    datas_sample = np.random.choice(datas_all, 100, replace=False)
     json.dump(datas_sample.tolist(), open("sample.json", "w"))
