@@ -286,6 +286,7 @@ int main() {
   if (parabuild_id) {
     device_id = std::atoi(parabuild_id);
   }
+  device_id = device_id % device_count;
   printf("使用的 GPU 设备 ID: %d\n", device_id);
   CUDA_CHECK(cudaSetDevice(device_id));
   

@@ -280,13 +280,26 @@ int main() {
   if (parabuild_id) {
     device_id = std::atoi(parabuild_id);
   }
+  device_id = device_id % device_count;
   printf("使用的 GPU 设备 ID: %d\n", device_id);
   CUDA_CHECK(cudaSetDevice(device_id));;
   
+#ifndef PARABUILD
   std::vector<bool (*)()>funcs = {
     &run_fused_gemm_s8_sm80_shmem,
     &run_nonfused_gemm_s8_sm80
   };
+#else
+  {{#if Fused}}
+  std::vector<bool (*)()>funcs = {
+    &run_fused_gemm_s8_sm80_shmem
+  };
+  {{else}}
+  std::vector<bool (*)()>funcs = {
+    &run_nonfused_gemm_s8_sm80
+  };
+  {{/if}}
+#endif
 
   return testRun(80, funcs, "gemm int4 RF residency");
 }
