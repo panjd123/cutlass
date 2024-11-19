@@ -317,12 +317,12 @@ struct B2bInterleavedNonFusedGemmRun
     std::cout << "gemm 1 time " << gemm1Time / (float)runs << " ms\n";
     std::cout << "Non-fusion time " << totalTime / (float)runs << " ms\n";
 
-    tensor_D0.sync_host();
-    tensor_D1.sync_host();
+    // tensor_D0.sync_host();
+    // tensor_D1.sync_host();
 
-    //
+    
     // Verify
-    //
+    
     // cutlass::reference::device::Gemm<
     //     typename Gemm0::ElementA, typename Gemm0::LayoutA,
     //     typename Gemm0::ElementB, typename Gemm0::LayoutB,

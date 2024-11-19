@@ -1,6 +1,7 @@
 import json
 import re
 import pandas as pd
+import argparse
 
 def get_data(datas):
     output = []
@@ -19,7 +20,10 @@ def get_data(datas):
     return output
     
 if __name__ == "__main__":
-    datas = json.load(open("example.json", "r"))
+    parser = argparse.ArgumentParser()
+    parser.add_argument("json", help="input json file", default="output.json")
+    args = parser.parse_args()
+    datas = json.load(open(args.json, "r"))
     output = get_data(datas)
     # print(output)
     df = pd.DataFrame(output)

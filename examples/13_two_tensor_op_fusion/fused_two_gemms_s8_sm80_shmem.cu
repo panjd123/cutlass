@@ -273,8 +273,14 @@ int main() {
   int device_count;
   cudaGetDeviceCount(&device_count);
   printf("系统中可用的 GPU 数量: %d\n", device_count);
-
-  CUDA_CHECK(cudaSetDevice(device_count - 1));
+  int device_id = device_count - 1;
+  const char *parabuild_id = std::getenv("PARABUILD_ID");
+  if (parabuild_id) {
+    device_id = std::atoi(parabuild_id);
+  }
+  printf("使用的 GPU 设备 ID: %d\n", device_id);
+  CUDA_CHECK(cudaSetDevice(device_id));
+  
   std::vector<bool (*)()>funcs = {
     &run_fused_gemm_s8_sm80_shmem,
     &run_nonfused_gemm_s8_sm80
