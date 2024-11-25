@@ -20,17 +20,20 @@ import numpy as np
 
 
 def generate_json(fused=True):
-    search_space = [32, 48, 64, 96, 128, 192]
+    m_search_space = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192, 256, 384, 512, 768, 1024, 1536, 3072]
+    n_search_space = [64, 96, 128, 192, 384]
+    
+    INTERLEAVE = 64
     N = 384
     datas = []
     if not fused:
-        for tbm in search_space:
-            for tbn in [N]:
+        for tbm in m_search_space:
+            for tbn in n_search_space:
                 for tbk in [128]:
-                    for wsm in search_space:
+                    for wsm in m_search_space:
                         if tbm % wsm != 0:
                             continue
-                        for wsn in search_space:
+                        for wsn in n_search_space:
                             if tbn % wsn != 0:
                                 continue
                             for wsk in [128]:
@@ -49,13 +52,13 @@ def generate_json(fused=True):
                                 }
                                 datas.append(data)
     else:
-        for tbm in search_space:
+        for tbm in m_search_space:
             for tbn in [N]:
                 for tbk in [128]:
-                    for wsm in search_space:
+                    for wsm in m_search_space:
                         if tbm % wsm != 0:
                             continue
-                        for wsn in search_space:
+                        for wsn in n_search_space:
                             if tbn % wsn != 0:
                                 continue
                             for wsk in [128]:
@@ -76,7 +79,7 @@ def generate_json(fused=True):
     return datas
 
 
-if __name__ == "__main__":
+def generate():
     datas_fused = generate_json(fused=True)
     json.dump(datas_fused, open("fused.json", "w"))
     datas_non_fused = generate_json(fused=False)
@@ -86,3 +89,19 @@ if __name__ == "__main__":
 
     datas_sample = np.random.choice(datas_all, 100, replace=False)
     json.dump(datas_sample.tolist(), open("sample.json", "w"))
+    
+    print(f"Generated {len(datas_fused)} fused configs")
+    print(f"Generated {len(datas_non_fused)} non-fused configs")
+    print(f"Generated {len(datas_all)} all configs")
+
+def get_factors(n):
+    factors = []
+    for i in range(1, n+1):
+        if n % i == 0:
+            factors.append(i)
+    return factors
+
+if __name__ == "__main__":
+    # print(get_factors(384))
+    # print(get_factors(12*256))
+    generate()

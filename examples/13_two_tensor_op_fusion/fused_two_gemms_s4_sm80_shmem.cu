@@ -91,9 +91,9 @@ bool run_nonfused_gemm_s8_sm80() {
 
 #ifndef PARABUILD
   using ThreadblockShape0 = cutlass::gemm::GemmShape<192, 384, 128>;
-  using WarpShape0 = cutlass::gemm::GemmShape<192, 48, 128>;
+  using WarpShape0 = cutlass::gemm::GemmShape<192, 64, 128>;
   using ThreadblockShape1 = cutlass::gemm::GemmShape<192, 384, 128>;
-  using WarpShape1 = cutlass::gemm::GemmShape<192, 48, 128>;
+  using WarpShape1 = cutlass::gemm::GemmShape<192, 64, 128>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, 64>;
 
   // passed
@@ -203,9 +203,9 @@ bool run_fused_gemm_s8_sm80_shmem() {
 
 #ifndef PARABUILD
   using ThreadblockShape0 = cutlass::gemm::GemmShape<192, 384, FUSED_SHAPE_K>;
-  using WarpShape0 = cutlass::gemm::GemmShape<192, 48, FUSED_SHAPE_K>;
+  using WarpShape0 = cutlass::gemm::GemmShape<96, 192, FUSED_SHAPE_K>;
   using ThreadblockShape1 = cutlass::gemm::GemmShape<192, 384, FUSED_SHAPE_K>;
-  using WarpShape1 = cutlass::gemm::GemmShape<192, 48, FUSED_SHAPE_K>;
+  using WarpShape1 = cutlass::gemm::GemmShape<96, 192, FUSED_SHAPE_K>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, INSTRUCTION_SHAPE_K>;
 #else
   using ThreadblockShape0 = cutlass::gemm::GemmShape<{{default FThreadblockShapeM "192"}}, {{default FThreadblockShapeN "TESTN1"}}, {{default FThreadblockShapeK "FUSED_SHAPE_K"}}>;
@@ -300,7 +300,7 @@ int main() {
   
 #ifndef PARABUILD
   std::vector<bool (*)()>funcs = {
-    // &run_fused_gemm_s8_sm80_shmem,
+    &run_fused_gemm_s8_sm80_shmem,
     &run_nonfused_gemm_s8_sm80
   };
 #else
