@@ -1,0 +1,962 @@
+[
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 64,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 64 384 128\nWarpShape0: 32 64 128\nThreadblockShape1: 64 384 128\nWarpShape1: 32 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 48, 1, 1 and block = 384, 1, 1\nShared memory size = 98560\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 32,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 32 384 128\nWarpShape0: 32 192 128\nThreadblockShape1: 32 384 128\nWarpShape1: 32 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 96, 1, 1 and block = 64, 1, 1\nShared memory size = 86144\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_16/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 48 64 128\nThreadblockShape1: 96 384 128\nWarpShape1: 48 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 384, 1, 1\nShared memory size = 110976\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 96,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 96 64 128\nThreadblockShape1: 96 384 128\nWarpShape1: 96 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 192, 1, 1\nShared memory size = 110976\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 96,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 96 192 128\nThreadblockShape1: 96 384 128\nWarpShape1: 96 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 64, 1, 1\nShared memory size = 110976\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_8/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 32 128 128\nThreadblockShape1: 192 384 128\nWarpShape1: 32 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 576, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 128,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 128 128 128\nThreadblockShape1: 128 384 128\nWarpShape1: 128 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 96, 1, 1\nShared memory size = 123392\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_14/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 64 96 128\nThreadblockShape1: 192 384 128\nWarpShape1: 64 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 384, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 192,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 192 64 128\nThreadblockShape1: 192 384 128\nWarpShape1: 192 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 192, 1, 1\nShared memory size = 148224\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 48,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 48 384 128\nWarpShape0: 48 64 128\nThreadblockShape1: 48 384 128\nWarpShape1: 48 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 64, 1, 1 and block = 192, 1, 1\nShared memory size = 92352\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 64,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 64 384 128\nWarpShape0: 64 96 128\nThreadblockShape1: 64 384 128\nWarpShape1: 64 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 48, 1, 1 and block = 128, 1, 1\nShared memory size = 98560\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_1/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 32 64 128\nThreadblockShape1: 96 384 128\nWarpShape1: 32 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 576, 1, 1\nShared memory size = 110976\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 48 128 128\nThreadblockShape1: 96 384 128\nWarpShape1: 48 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 192, 1, 1\nShared memory size = 110976\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_13/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 64 64 128\nThreadblockShape1: 128 384 128\nWarpShape1: 64 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 384, 1, 1\nShared memory size = 123392\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 128,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 128 64 128\nThreadblockShape1: 128 384 128\nWarpShape1: 128 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 192, 1, 1\nShared memory size = 123392\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_15/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 48 128 128\nThreadblockShape1: 192 384 128\nWarpShape1: 48 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 384, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 96,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 96 96 128\nThreadblockShape1: 192 384 128\nWarpShape1: 96 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 256, 1, 1\nShared memory size = 148224\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 32,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 32 384 128\nWarpShape0: 32 64 128\nThreadblockShape1: 32 384 128\nWarpShape1: 32 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 96, 1, 1 and block = 192, 1, 1\nShared memory size = 86144\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 48,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 48 384 128\nWarpShape0: 48 192 128\nThreadblockShape1: 48 384 128\nWarpShape1: 48 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 64, 1, 1 and block = 64, 1, 1\nShared memory size = 92352\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_2/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 32 128 128\nThreadblockShape1: 96 384 128\nWarpShape1: 32 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 288, 1, 1\nShared memory size = 110976\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 96,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 96 96 128\nThreadblockShape1: 96 384 128\nWarpShape1: 96 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 128, 1, 1\nShared memory size = 110976\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 64 96 128\nThreadblockShape1: 128 384 128\nWarpShape1: 64 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 256, 1, 1\nShared memory size = 123392\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_3/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 32 96 128\nThreadblockShape1: 192 384 128\nWarpShape1: 32 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 768, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_0/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 32 192 128\nThreadblockShape1: 192 384 128\nWarpShape1: 32 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 384, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_1/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 64 128 128\nThreadblockShape1: 192 384 128\nWarpShape1: 64 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 288, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 192,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 192 96 128\nThreadblockShape1: 192 384 128\nWarpShape1: 192 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 128, 1, 1\nShared memory size = 148224\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 64,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 64 384 128\nWarpShape0: 32 96 128\nThreadblockShape1: 64 384 128\nWarpShape1: 32 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 48, 1, 1 and block = 256, 1, 1\nShared memory size = 98560\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 64,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 64 384 128\nWarpShape0: 64 64 128\nThreadblockShape1: 64 384 128\nWarpShape1: 64 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 48, 1, 1 and block = 192, 1, 1\nShared memory size = 98560\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 64,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 64 384 128\nWarpShape0: 64 192 128\nThreadblockShape1: 64 384 128\nWarpShape1: 64 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 48, 1, 1 and block = 64, 1, 1\nShared memory size = 98560\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 48 96 128\nThreadblockShape1: 96 384 128\nWarpShape1: 48 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 256, 1, 1\nShared memory size = 110976\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 32 192 128\nThreadblockShape1: 128 384 128\nWarpShape1: 32 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 256, 1, 1\nShared memory size = 123392\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 128,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 128 96 128\nThreadblockShape1: 128 384 128\nWarpShape1: 128 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 128, 1, 1\nShared memory size = 123392\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 128,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 128 192 128\nThreadblockShape1: 128 384 128\nWarpShape1: 128 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 64, 1, 1\nShared memory size = 123392\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 96,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 96 128 128\nThreadblockShape1: 192 384 128\nWarpShape1: 96 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 192, 1, 1\nShared memory size = 148224\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 64,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 64 384 128\nWarpShape0: 32 128 128\nThreadblockShape1: 64 384 128\nWarpShape1: 32 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 48, 1, 1 and block = 192, 1, 1\nShared memory size = 98560\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 64,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 64 384 128\nWarpShape0: 32 192 128\nThreadblockShape1: 64 384 128\nWarpShape1: 32 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 48, 1, 1 and block = 128, 1, 1\nShared memory size = 98560\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 32 192 128\nThreadblockShape1: 96 384 128\nWarpShape1: 32 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 192, 1, 1\nShared memory size = 110976\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_5/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 32 64 128\nThreadblockShape1: 128 384 128\nWarpShape1: 32 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 768, 1, 1\nShared memory size = 123392\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 96,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 96 128 128\nThreadblockShape1: 96 384 128\nWarpShape1: 96 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 96, 1, 1\nShared memory size = 110976\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_5/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 32 64 128\nThreadblockShape1: 192 384 128\nWarpShape1: 32 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 1152, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_12/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 48 96 128\nThreadblockShape1: 192 384 128\nWarpShape1: 48 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 512, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 64 192 128\nThreadblockShape1: 192 384 128\nWarpShape1: 64 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 192, 1, 1\nShared memory size = 148224\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 192,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 192 192 128\nThreadblockShape1: 192 384 128\nWarpShape1: 192 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 64, 1, 1\nShared memory size = 148224\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 32,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 32 384 128\nWarpShape0: 32 96 128\nThreadblockShape1: 32 384 128\nWarpShape1: 32 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 96, 1, 1 and block = 128, 1, 1\nShared memory size = 86144\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 32,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 32 384 128\nWarpShape0: 32 128 128\nThreadblockShape1: 32 384 128\nWarpShape1: 32 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 96, 1, 1 and block = 96, 1, 1\nShared memory size = 86144\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 64,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 64 384 128\nWarpShape0: 64 128 128\nThreadblockShape1: 64 384 128\nWarpShape1: 64 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 48, 1, 1 and block = 96, 1, 1\nShared memory size = 98560\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_8/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 32 96 128\nThreadblockShape1: 128 384 128\nWarpShape1: 32 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 512, 1, 1\nShared memory size = 123392\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_7/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 32 128 128\nThreadblockShape1: 128 384 128\nWarpShape1: 32 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 384, 1, 1\nShared memory size = 123392\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 64 192 128\nThreadblockShape1: 128 384 128\nWarpShape1: 64 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 128, 1, 1\nShared memory size = 123392\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 48 192 128\nThreadblockShape1: 192 384 128\nWarpShape1: 48 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 256, 1, 1\nShared memory size = 148224\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 96,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_4/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 96 64 128\nThreadblockShape1: 192 384 128\nWarpShape1: 96 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 384, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 192,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 192 128 128\nThreadblockShape1: 192 384 128\nWarpShape1: 192 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 96, 1, 1\nShared memory size = 148224\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 48,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 48 384 128\nWarpShape0: 48 96 128\nThreadblockShape1: 48 384 128\nWarpShape1: 48 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 64, 1, 1 and block = 128, 1, 1\nShared memory size = 92352\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 48,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 48 384 128\nWarpShape0: 48 128 128\nThreadblockShape1: 48 384 128\nWarpShape1: 48 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 64, 1, 1 and block = 96, 1, 1\nShared memory size = 92352\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 32,
+      "FWarpShapeN": 96,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 32 96 128\nThreadblockShape1: 96 384 128\nWarpShape1: 32 96 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 384, 1, 1\nShared memory size = 110976\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 96,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 96 384 128\nWarpShape0: 48 192 128\nThreadblockShape1: 96 384 128\nWarpShape1: 48 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 32, 1, 1 and block = 128, 1, 1\nShared memory size = 110976\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 128,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 128,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 128 384 128\nWarpShape0: 64 128 128\nThreadblockShape1: 128 384 128\nWarpShape1: 64 128 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 24, 1, 1 and block = 192, 1, 1\nShared memory size = 123392\nFusion time 0 ms\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 48,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_11/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 48 64 128\nThreadblockShape1: 192 384 128\nWarpShape1: 48 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 768, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 64,
+      "FWarpShapeN": 64,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": 1,
+    "stderr": "Got cutlass error: Error Internal at: /root/cutlass_workspace/workspaces/workspace_6/examples/13_two_tensor_op_fusion/b2b_interleaved_gemm_run.h:652\n",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 64 64 128\nThreadblockShape1: 192 384 128\nWarpShape1: 64 64 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 576, 1, 1\nShared memory size = 148224\n"
+  },
+  {
+    "data": {
+      "FThreadblockShapeK": 128,
+      "FThreadblockShapeM": 192,
+      "FThreadblockShapeN": 384,
+      "FWarpShapeK": 128,
+      "FWarpShapeM": 96,
+      "FWarpShapeN": 192,
+      "Fused": true,
+      "N1": 384,
+      "N2": 384
+    },
+    "status": -1,
+    "stderr": "",
+    "stdout": "系统中可用的 GPU 数量: 1\n使用的 GPU 设备 ID: 0\nDevice: NVIDIA A100 80GB PCIe MIG 1g.10gb\nArch: SM80\nTest: gemm int4 shmem staging\nThreadblockShape0: 192 384 128\nWarpShape0: 96 192 128\nThreadblockShape1: 192 384 128\nWarpShape1: 96 192 128\nRunning Fused back-to-back INT4 NT interleaved GEMMs with shared memory staging...\nLaunching kernel with grid = 16, 1, 1 and block = 128, 1, 1\nShared memory size = 148224\nFusion time 0 ms\n"
+  }
+]

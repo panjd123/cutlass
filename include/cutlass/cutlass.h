@@ -180,12 +180,12 @@ class whatIsT{
 
 template <int N, int tag>
 class whatIsN2{
-  // static_assert(N == 100876, "whatIsN");
+  static_assert(N == 100876, "whatIsN");
 };
 
 template <typename T, int tag>
 class whatIsT2{
-  // static_assert(sizeof(T) == 100876, "whatIsT");
+  static_assert(sizeof(T) == 100876, "whatIsT");
 };
 
 #endif

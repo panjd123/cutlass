@@ -482,11 +482,14 @@ public:
     int smem_size = int(sizeof(typename GemmKernel::SharedStorage));
 
     if (smem_size >= (48 << 10)) {
+      // printf("%d\n", smem_size);
       result = cudaFuncSetAttribute(Kernel<GemmKernel>,
                                     cudaFuncAttributeMaxDynamicSharedMemorySize,
                                     smem_size);
 
       if (result != cudaSuccess) {
+        fprintf(stderr, "Shared memory size = %d too large\n", smem_size);
+        fflush(stderr);
         return Status::kErrorInternal;
       }
     }

@@ -25,15 +25,15 @@ def generate_json(fused=True):
     datas = []
     if not fused:
         for tbm in search_space:
-            for tbn in [N]:
-                for tbk in [128]:
+            for tbn in search_space:
+                for tbk in search_space:
                     for wsm in search_space:
                         if tbm % wsm != 0:
                             continue
                         for wsn in search_space:
                             if tbn % wsn != 0:
                                 continue
-                            for wsk in [128]:
+                            for wsk in search_space:
                                 if tbk % wsk != 0:
                                     continue
                                 data = {
@@ -51,14 +51,14 @@ def generate_json(fused=True):
     else:
         for tbm in search_space:
             for tbn in [N]:
-                for tbk in [128]:
+                for tbk in search_space:
                     for wsm in search_space:
                         if tbm % wsm != 0:
                             continue
                         for wsn in search_space:
                             if tbn % wsn != 0:
                                 continue
-                            for wsk in [128]:
+                            for wsk in search_space:
                                 if tbk % wsk != 0:
                                     continue
                                 data = {

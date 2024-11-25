@@ -4,25 +4,22 @@ parabuild . \
     examples/13_two_tensor_op_fusion/fused_two_gemms_s8_sm80_shmem.cu \
     build/examples/13_two_tensor_op_fusion/13_fused_two_gemms_s8_sm80_shmem \
     --workspaces-path /root/cutlass_workspace/workspaces \
-    --in-place-template \
     --make-target 13_fused_two_gemms_s8_sm80_shmem \
     --init-cmake-args="-DCMAKE_BUILD_TYPE=Release -DCUTLASS_NVCC_ARCHS=80 -DCMAKE_CUDA_ARCHITECTURES=80 -DCUTLASS_ENABLE_CUBLAS=ON -DCUTLASS_ENABLE_CUDNN=ON" \
     --data-file "bert_scripts/sample.json" \
-    --progress-bar \
     -j 17 \
     -J 7 \
     -o bert_scripts/example.8.json
+
+exit 0
 
 parabuild . \
     examples/13_two_tensor_op_fusion/fused_two_gemms_s8_sm80_shmem.cu \
     build/examples/13_two_tensor_op_fusion/13_fused_two_gemms_s8_sm80_shmem \
     --workspaces-path /root/cutlass_workspace/workspaces \
-    --in-place-template \
     --make-target 13_fused_two_gemms_s8_sm80_shmem \
     --init-cmake-args="-DCMAKE_BUILD_TYPE=Release -DCUTLASS_NVCC_ARCHS=80 -DCMAKE_CUDA_ARCHITECTURES=80 -DCUTLASS_ENABLE_CUBLAS=ON -DCUTLASS_ENABLE_CUDNN=ON" \
     --data-file "bert_scripts/all.json" \
-    --progress-bar \
     -j 17 \
     -J 7 \
-    --cache \
     -o bert_scripts/output.8.json

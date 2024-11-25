@@ -982,6 +982,8 @@ function(cutlass_add_executable_tests NAME TARGET)
 
 endfunction()
 
+add_subdirectory(jarden)
+
 if (CUTLASS_ENABLE_TOOLS)
   add_subdirectory(tools)
   if (CUTLASS_ENABLE_PROFILER)

@@ -90,16 +90,30 @@ bool run_nonfused_gemm_s8_sm80() {
   ElementCompute beta1 = ElementCompute(0); //beta=1 for bias
 
 #ifndef PARABUILD
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<128, 192, 128>;
-  using WarpShape0 = cutlass::gemm::GemmShape<128, 32, 128>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<128, 192, 128>;
-  using WarpShape1 = cutlass::gemm::GemmShape<128, 32, 128>;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<192, 384, 128>;
+  using WarpShape0 = cutlass::gemm::GemmShape<192, 48, 128>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<192, 384, 128>;
+  using WarpShape1 = cutlass::gemm::GemmShape<192, 48, 128>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, 64>;
+
+  // passed
+  // using ThreadblockShape0 = cutlass::gemm::GemmShape<96, 128, 128>;
+  // using WarpShape0 = cutlass::gemm::GemmShape<48, 64, 128>;
+  // using ThreadblockShape1 = cutlass::gemm::GemmShape<96, 128, 128>;
+  // using WarpShape1 = cutlass::gemm::GemmShape<48, 64, 128>;
+  // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 64>;
+
+  // failed
+  // using ThreadblockShape0 = cutlass::gemm::GemmShape<192, 192, 128>;
+  // using WarpShape0 = cutlass::gemm::GemmShape<48, 48, 128>;
+  // using ThreadblockShape1 = cutlass::gemm::GemmShape<192, 192, 128>;
+  // using WarpShape1 = cutlass::gemm::GemmShape<48, 48, 128>;
+  // using InstructionShape = cutlass::gemm::GemmShape<16, 8, 64>;
 #else
-  using ThreadblockShape0 = cutlass::gemm::GemmShape<{{default NFThreadblockShapeM "128"}}, {{default NFThreadblockShapeN "192"}}, {{default NFThreadblockShapeK "128"}}>;
-  using WarpShape0 = cutlass::gemm::GemmShape<{{default NFWarpShapeM "128"}}, {{default NFWarpShapeN "32"}}, {{default NFWarpShapeK "128"}}>;
-  using ThreadblockShape1 = cutlass::gemm::GemmShape<{{default NFThreadblockShapeM "128"}}, {{default NFThreadblockShapeN "192"}}, {{default NFThreadblockShapeK "128"}}>;
-  using WarpShape1 = cutlass::gemm::GemmShape<{{default NFWarpShapeM "128"}}, {{default NFWarpShapeN "32"}}, {{default NFWarpShapeK "128"}}>;
+  using ThreadblockShape0 = cutlass::gemm::GemmShape<{{default NFThreadblockShapeM "96"}}, {{default NFThreadblockShapeN "128"}}, {{default NFThreadblockShapeK "128"}}>;
+  using WarpShape0 = cutlass::gemm::GemmShape<{{default NFWarpShapeM "48"}}, {{default NFWarpShapeN "64"}}, {{default NFWarpShapeK "128"}}>;
+  using ThreadblockShape1 = cutlass::gemm::GemmShape<{{default NFThreadblockShapeM "96"}}, {{default NFThreadblockShapeN "128"}}, {{default NFThreadblockShapeK "128"}}>;
+  using WarpShape1 = cutlass::gemm::GemmShape<{{default NFWarpShapeM "48"}}, {{default NFWarpShapeN "64"}}, {{default NFWarpShapeK "128"}}>;
   using InstructionShape = cutlass::gemm::GemmShape<16, 8, 64>;
   printf("ThreadblockShape0: %d %d %d\n", ThreadblockShape0::kM, ThreadblockShape0::kN, ThreadblockShape0::kK);
   printf("WarpShape0: %d %d %d\n", WarpShape0::kM, WarpShape0::kN, WarpShape0::kK);
@@ -286,7 +300,7 @@ int main() {
   
 #ifndef PARABUILD
   std::vector<bool (*)()>funcs = {
-    &run_fused_gemm_s8_sm80_shmem,
+    // &run_fused_gemm_s8_sm80_shmem,
     &run_nonfused_gemm_s8_sm80
   };
 #else
@@ -301,7 +315,7 @@ int main() {
   {{/if}}
 #endif
 
-  return testRun(80, funcs, "gemm int4 RF residency");
+  return testRun(80, funcs, "gemm int4 shmem staging");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
