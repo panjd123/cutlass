@@ -477,6 +477,9 @@ public:
     dim3 grid = threadblock_swizzle.get_grid_shape(params_.grid_tiled_shape);
     dim3 block(GemmKernel::kThreadCount, 1, 1);
 
+    printf("Launching kernel with grid = (%d, %d, %d) block = (%d, %d, %d)\n", 
+      grid.x, grid.y, grid.z, block.x, block.y, block.z);
+
     cudaError_t result;
 
     int smem_size = int(sizeof(typename GemmKernel::SharedStorage));

@@ -141,6 +141,9 @@ struct DefaultInterleavedThreadMapTensorOp {
   // ThreadMap
   //
 
+  // whatIsN2<WarpShape::kN, 222> w;
+  // whatIsN2<InterleavedK, 223> w2;
+
   /// ThreadMap to be used by epilogue::PredicatedTileIterator satisfying concept
   /// InterleavedOutputTileThreadMap
   using Type = InterleavedOutputTileThreadMap<

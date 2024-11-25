@@ -367,7 +367,7 @@ public:
     //
     // Iterate over accumulator tile
     //
-
+    // printf("OutputTileIterator::kIterations: %d\n", OutputTileIterator::kIterations);
     CUTLASS_PRAGMA_UNROLL
     for (int iter = 0; iter < OutputTileIterator::kIterations; ++iter) {
 

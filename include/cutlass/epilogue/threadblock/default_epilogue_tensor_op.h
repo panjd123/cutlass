@@ -821,17 +821,22 @@ struct DefaultInterleavedEpilogueTensorOp {
   using LayoutC = typename WarpMmaTensorOp::LayoutC;
   using ElementAccumulator = typename WarpMmaTensorOp::ElementC;
 
+  // whatIsT2<typename WarpMmaTensorOp::Shape, 888> w;
+
   //
   // Thread map
   //
   using OutputTileThreadMap = typename cutlass::epilogue::threadblock::
       DefaultInterleavedThreadMapTensorOp<
           Shape, typename WarpMmaTensorOp::Shape, kPartitionsK, ElementOutput,
-          kElementsPerAccess, InterleavedK>::Type;
+          kElementsPerAccess, InterleavedK>::Type; // from OutputTileThreadMap(ThreadMap)::Iterations::kCount
+  
+  // whatIsT2<OutputTileThreadMap, 111> w;
+  // whatIsT2<typename OutputTileThreadMap::Iterations, 115> w2;
 
   using OutputTileIterator =
       cutlass::epilogue::threadblock::InterleavedPredicatedTileIterator<
-          OutputTileThreadMap, ElementOutput, InterleavedK>;
+          OutputTileThreadMap, ElementOutput, InterleavedK>; // from here
 
   using AccumulatorFragmentIterator =
       cutlass::epilogue::warp::FragmentIteratorTensorOp<
@@ -845,7 +850,7 @@ struct DefaultInterleavedEpilogueTensorOp {
   // Define the epilogue
   //
   using Epilogue = cutlass::epilogue::threadblock::InterleavedEpilogue<
-      Shape, WarpMmaTensorOp, kPartitionsK, OutputTileIterator,
+      Shape, WarpMmaTensorOp, kPartitionsK, OutputTileIterator, // from here
       AccumulatorFragmentIterator, OutputOp, InterleavedK>;
 };
 

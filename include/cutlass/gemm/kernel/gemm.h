@@ -259,6 +259,12 @@ struct Gemm {
     int warp_idx = canonical_warp_idx_sync();
     int lane_idx = threadIdx.x % 32;
 
+    if(warp_idx == 0 && lane_idx == 0){
+      printf("Gemm::operator() called\n");
+      printf("kSplitKSerial: %d\n", static_cast<int>(kSplitKSerial));
+      printf("gemm_k_iterations: %d\n", static_cast<int>(gemm_k_iterations));
+    }
+
     //
     // Main loop
     //
@@ -294,7 +300,13 @@ struct Gemm {
       threadblock_tile_offset.n() * Mma::Shape::kN
     );
 
+    // if(lane_idx==0)
+    // printf("warp_idx: %d\nthreadblock_tile_offset.m(): %d\nthreadblock_tile_offset.n(): %d\n\n", warp_idx, static_cast<int>(threadblock_tile_offset.m()), static_cast<int>(threadblock_tile_offset.n()));
+
     int block_idx = threadblock_tile_offset.m() + threadblock_tile_offset.n() * params.grid_tiled_shape.m();
+    // if(warp_idx!=1 || block_idx!=0){
+    //   return;
+    // }
 
     // Construct the semaphore.
     Semaphore semaphore(params.semaphore + block_idx, thread_idx);
@@ -328,6 +340,7 @@ struct Gemm {
       threadblock_offset,
       params.scatter_D_indices
     );
+    // printf("params.scatter_D_indices: %d\n", static_cast<int>(params.scatter_D_indices[0]));
 
     Epilogue epilogue(
       shared_storage.epilogue, 
@@ -347,6 +360,7 @@ struct Gemm {
 
     }
 
+    // printf("?????\n");
     // Execute the epilogue operator to update the destination tensor.
     epilogue(output_op, iterator_D, accumulators, iterator_C); 
     
